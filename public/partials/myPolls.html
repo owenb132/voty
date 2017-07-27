@@ -1,0 +1,11 @@
+<div ng-controller="PollsCtrl">
+	<div ng-if="polls.length > 0">
+	    <div ng-repeat="poll in polls" class="callout small">
+	        <p>{{ poll.text }}</p>
+	    </div>
+    </div>
+
+    <div ng-if="polls.length === 0">
+    	<h1>No polls yet.</h1>
+	</div>
+</div>

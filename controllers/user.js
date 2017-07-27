@@ -114,11 +114,13 @@ exports.accountPut = function(req, res, next) {
     if ('password' in req.body) {
       user.password = req.body.password;
     } else {
-      user.email = req.body.email;
-      user.name = req.body.name;
-      user.gender = req.body.gender;
+      user.email    = req.body.email;
+      user.name     = req.body.name;
+      user.gender   = req.body.gender;
       user.location = req.body.location;
-      user.website = req.body.website;
+      user.website  = req.body.website;
+      user.polls    = req.body.polls;
+      user.votes    = req.body.votes;
     }
     user.save(function(err) {
       if ('password' in req.body) {

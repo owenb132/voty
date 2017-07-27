@@ -4136,6 +4136,10 @@ footer {
 .text-alert {
   color: #ec5840; }
 
+.container {
+  width: 70%;
+  margin: 0 auto; }
+
 .callout.alert {
   background-color: rgba(240, 80, 80, 0.2);
   border-color: rgba(240, 80, 80, 0.3);

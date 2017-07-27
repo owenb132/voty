@@ -5,8 +5,8 @@ angular.module('Votapalooza')
         return $http.get('/api/polls');
       },
 
-      getPoll: function() {
-      	return $http.get('/api/polls/:id');
+      getPoll: function(pollId) {
+      	return $http.get('/api/polls/' + pollId);
       },
 
       createPoll: function(data) {

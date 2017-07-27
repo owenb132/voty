@@ -1,6 +1,7 @@
 var crypto = require('crypto');
 var bcrypt = require('bcrypt-nodejs');
 var mongoose = require('mongoose');
+var Poll = require('./Poll');
 
 var schemaOptions = {
   timestamps: true,
@@ -23,7 +24,26 @@ var userSchema = new mongoose.Schema({
   twitter: String,
   google: String,
   github: String,
-  vk: String
+  vk: String,
+  votes: [
+    {
+      poll: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Poll'
+      },
+
+      choice: String
+    }
+  ],
+
+  polls: [
+    {
+      _id: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Poll'
+      }
+    }
+  ]
 }, schemaOptions);
 
 userSchema.pre('save', function(next) {

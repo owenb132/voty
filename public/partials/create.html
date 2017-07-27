@@ -1,0 +1,30 @@
+<div ng-controller="CreatePollCtrl" class="container">
+    <div ng-if="isAuthenticated()">
+        <h1>Create Poll</h1>
+        <form ng-submit="createPoll()">
+            <div class="form-group poll-name" ng-class="{'has-error': errors.name.message.length > 1}">
+                <label class="control-label" for="pollName">Name your poll.</label>
+                <input type="text" class="form-control" id="pollName" aria-describedby="helpBlockPollName" ng-model="newPoll.text" placeholder="What is your favourite brand?">
+                <span id="helpBlockPollName" class="help-block">{{ errors.name.message }}</span>
+            </div>
+            <label>Options</label>
+            <div class="form-group poll-options" ng-class="{'has-error': errors.options.message.length > 1}">
+                <div class="input-group" ng-repeat="placeholder in placeholders track by $index">
+                    <input type="text" class="form-control" aria-describedby="helpBlockPollOptions" ng-model="newPoll.options[$index].text" placeholder={{placeholder}}>
+                    <span class="input-group-btn">
+                    <button class="button alert" type="button" ng-click="removeOption($index)">Remove</button>
+                </span>
+                </div>
+                <span id="helpBlockPollOptions" class="help-block">{{ errors.options.message }}</span>
+            </div>
+            <div class="button-group">
+                <button type="button" class="button secondary" ng-click="addOption()">Add Option</button>
+                <button type="submit" class="button primary">Create</button>
+            </div>
+        </form>
+    </div>
+
+    <div ng-if="!isAuthenticated()">
+    	<h1>Please log in to create a poll.</h1>
+	</div>
+</div>

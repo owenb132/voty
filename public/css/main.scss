@@ -75,6 +75,11 @@ footer {
   color: map-get($foundation-palette, alert);
 }
 
+.container {
+  width: 70%;
+  margin: 0 auto;
+}
+
 // Alerts
 // ------
 
