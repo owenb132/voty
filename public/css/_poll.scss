@@ -1,0 +1,6 @@
+.poll {
+	.poll-text {
+		@include vertical-center;
+		padding-left: 1rem;
+	}
+}

@@ -1,0 +1,14 @@
+<div ng-controller="ViewPollCtrl" class="container">
+		<h1>{{poll.text}}</h1>
+		<ul>
+			<li ng-repeat="option in poll.options">
+				<p>{{option.text}} ({{option.votes.length}} votes)</p>
+			</li>
+		</ul>
+		
+		<div class="button-group">
+			<a ng-if="poll.owner === profile._id" class="button float-left" href="/poll/edit/{{poll._id}}">Edit</a>
+			<button ng-if="poll.owner === profile._id" ng-click="deletePoll()" class="button alert float-left">Delete</button>
+		</div>
+	</div>
+</div>

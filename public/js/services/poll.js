@@ -13,12 +13,12 @@ angular.module('Votapalooza')
       	return $http.post('/api/polls', data);
       },
 
-      updatePoll: function(data) {
-      	return $http.patch('/api/polls/:id', data);
+      updatePoll: function(pollId, data) {
+      	return $http.patch('/api/polls/' + pollId, data);
       },
 
-      deletePoll: function() {
-      	return $http.delete('/api/polls/:id');
+      deletePoll: function(pollId) {
+      	return $http.delete('/api/polls/' + pollId);
       }
     };
   });

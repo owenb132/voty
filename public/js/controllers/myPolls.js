@@ -5,6 +5,7 @@ angular.module('Votapalooza')
 
     $scope.getPolls = function() {
     	angular.forEach($scope.profile.polls, function (poll) {
+            
             Poll.getPoll(poll._id)
 	            .then(function (response) {
 	                $scope.polls.push(response.data);

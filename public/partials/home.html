@@ -1,6 +1,6 @@
 <div ng-controller="HomeCtrl">
   <div ng-repeat="poll in polls" class="callout small">
-    <p>{{ poll.text }}</p>
+    <a href="/poll/{{poll._id}}"><p>{{ poll.text }}</p></a>
   </div>
 </div>
 

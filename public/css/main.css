@@ -4115,6 +4115,12 @@ table.hover tr:nth-of-type(even):hover {
   background-color: #1779BA;
   color: #fff; }
 
+.poll .poll-text {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  padding-left: 1rem; }
+
 html {
   position: relative;
   min-height: 100%;
