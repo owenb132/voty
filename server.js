@@ -25,7 +25,7 @@ var contactController = require('./controllers/contact');
 var app = express();
 
 
-mongoose.connect(process.env.MONGODB);
+mongoose.connect(process.env.MONGODB_URI);
 mongoose.connection.on('error', function() {
   console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
   process.exit(1);
