@@ -15,6 +15,9 @@ angular.module('Votapalooza', ['ngRoute', 'satellizer'])
       .when('/poll/:id', {
         templateUrl: 'partials/viewPoll.html'
       })
+      .when('/poll/edit/:id', {
+        templateUrl: 'partials/editPoll.html'
+      })
       .when('/contact', {
         templateUrl: 'partials/contact.html',
         controller: 'ContactCtrl'

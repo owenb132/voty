@@ -13,16 +13,6 @@ function respondWithResult(res, statusCode) {
   };
 }
 
-function patchUpdates(updates) {
-  return function(entity) {
-  	var updated = _.extend(entity, updates);
-  	return updated.saveAsync()
-  		.spread(function(updated) {
-  			return updated;
-  		});
-  }
-}
-
 function removeEntity(res) {
   return function(entity) {
     if(entity) {
@@ -71,11 +61,17 @@ exports.create = function(req, res) {
 };
 
 exports.patch = function(req, res) {
-	return Poll.findById(req.params.id).exec()
-		.then(handleEntityNotFound(res))
-		.then(patchUpdates(req.body))
-		.then(respondWithResult(res))
-		.catch(handleError(res));
+  return Poll.findOneAndUpdate({
+    _id: req.params.id
+  }, 
+    req.body, 
+  {
+    new: true
+  }
+  ).exec()
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
 }
 
 exports.destroy = function(req, res) {
