@@ -47,7 +47,7 @@ angular.module('Votapalooza')
             $scope.errors.name.message = NEW_POLL_NAME_ERROR;
         }
 
-        if ($scope.newPoll.options.length < 2) {
+        if ($scope.newPoll.options.filter(function(opt) { return opt.text.length > 0 }).length < 2) {
             $scope.errors.options.message = NEW_POLL_OPTIONS_ERROR;
         }
 
@@ -55,18 +55,19 @@ angular.module('Votapalooza')
 
 		    Poll.createPoll($scope.newPoll)
 		        .then(function (response) {
-		            $scope.newPoll = {};
+		            $scope.newPoll = {
+                        owner: $scope.profile._id,
+                        options: []
+                    };
+
 		            $scope.created = true;
 
 		            $scope.profile.polls.push({
 		                _id: response.data._id
 		            });
 
-		            console.log($scope.profile);
-
 		            $http.put('/account', $scope.profile).then(function(response) {
 		                $scope.success = 'Poll created successfully!';
-		                console.log(response);
 		            }, function (response) {
 		                $scope.error = `Error creating poll: ${response.status} ${response.statusText}`;
 		                console.log(response);
