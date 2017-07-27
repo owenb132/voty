@@ -3,7 +3,7 @@
 
 @include foundation-global-styles;
 @include foundation-grid;
-// @include foundation-flex-grid;
+@include foundation-flex-grid;
 @include foundation-typography;
 @include foundation-button;
 @include foundation-forms;
@@ -41,7 +41,11 @@
 @include foundation-top-bar;
 @include foundation-visibility-classes;
 @include foundation-float-classes;
-// @include foundation-flex-classes;
+@include foundation-flex-classes;
+
+
+@import "header";
+
 
 // Scaffolding
 // -------------------------
@@ -156,6 +160,7 @@ footer {
 
 .top-bar {
   margin-bottom: 2rem;
+  background-color: #2C3E50;
 }
 
 .top-bar .avatar {
@@ -165,6 +170,10 @@ footer {
   border-radius: 50%;
   width: 30px;
   height: 30px;
+}
+
+.top-bar li {
+  background-color: #2C3E50;
 }
 
 .top-bar a {
@@ -188,7 +197,7 @@ footer {
 }
 
 .top-bar li > a.active {
-  background-color: $black;
+  background-color: #1779BA;
 }
 
 // Forms

@@ -21,15 +21,17 @@ var User = require('./models/User');
 // Controllers
 var userController = require('./controllers/user');
 var contactController = require('./controllers/contact');
+var pollController = require('./controllers/poll');
 
 var app = express();
 
-
+// Connect to database
 mongoose.connect(process.env.MONGODB_URI);
 mongoose.connection.on('error', function() {
   console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
   process.exit(1);
 });
+
 app.set('port', process.env.PORT || 3000);
 app.use(compression());
 app.use(sass({ src: path.join(__dirname, 'public'), dest: path.join(__dirname, 'public') }));
@@ -62,6 +64,8 @@ app.use(function(req, res, next) {
 });
 
 app.post('/contact', contactController.contactPost);
+
+// Account
 app.put('/account', userController.ensureAuthenticated, userController.accountPut);
 app.delete('/account', userController.ensureAuthenticated, userController.accountDelete);
 app.post('/signup', userController.signupPost);
@@ -69,14 +73,29 @@ app.post('/login', userController.loginPost);
 app.post('/forgot', userController.forgotPost);
 app.post('/reset/:token', userController.resetPost);
 app.get('/unlink/:provider', userController.ensureAuthenticated, userController.unlink);
+
+// Facebook
 app.post('/auth/facebook', userController.authFacebook);
 app.get('/auth/facebook/callback', userController.authFacebookCallback);
+
+// Google
 app.post('/auth/google', userController.authGoogle);
 app.get('/auth/google/callback', userController.authGoogleCallback);
+
+// Twitter
 app.post('/auth/twitter', userController.authTwitter);
 app.get('/auth/twitter/callback', userController.authTwitterCallback);
+
+// Github
 app.post('/auth/github', userController.authGithub);
 app.get('/auth/github/callback', userController.authGithubCallback);
+
+// Api routes
+app.get('/api/polls', pollController.index);
+app.get('/api/polls/:id', pollController.show);
+app.post('/api/polls', pollController.create);
+app.patch('/api/polls/:id', pollController.patch);
+app.delete('/api/polls/:id', pollController.destroy);
 
 app.get('*', function(req, res) {
   res.redirect('/#' + req.originalUrl);
@@ -88,6 +107,10 @@ if (app.get('env') === 'production') {
     console.error(err.stack);
     res.sendStatus(err.status || 500);
   });
+}
+
+if (app.get('env') === 'development') {
+  require('./seed');
 }
 
 app.listen(app.get('port'), function() {

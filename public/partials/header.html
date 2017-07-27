@@ -3,13 +3,14 @@
     <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
       <span class="menu-icon light" data-toggle></span>
     </span>
-    <a href="/">Project name</a>
+    <a href="/">Votapalooza</a>
   </div>
   <div id="responsive-menu">
     <div class="top-bar-left">
       <ul class="vertical medium-horizontal menu">
         <li><a href="/" ng-class="{ active: isActive('/')}">Home</a></li>
-        <li><a href="/contact" ng-class="{ active: isActive('/contact')}">Contact</a></li>
+        <li><a href="/create" ng-class="{ active: isActive('/create')}">Create</a></li>
+        <li><a href="/me/polls" ng-class="{ active: isActive('/me/polls')}">My Polls</a></li>
       </ul>
     </div>
     <div ng-if="isAuthenticated()" class="top-bar-right">
@@ -26,3 +27,4 @@
     </div>
   </div>
 </div>
+
