@@ -68,6 +68,7 @@ angular.module('Votapalooza')
 
 		            $http.put('/account', $scope.profile).then(function(response) {
 		                $scope.success = 'Poll created successfully!';
+                        console.log(response);
 		            }, function (response) {
 		                $scope.error = `Error creating poll: ${response.status} ${response.statusText}`;
 		                console.log(response);
