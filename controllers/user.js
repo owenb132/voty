@@ -17,6 +17,44 @@ function generateToken(user) {
   return jwt.sign(payload, process.env.TOKEN_SECRET);
 }
 
+function respondWithResult(res, statusCode) {
+  statusCode = statusCode || 200;
+  return function(entity) {
+    if(entity) {
+      return res.status(statusCode).json(entity);
+    }
+    return null;
+  };
+}
+
+function removeEntity(res) {
+  return function(entity) {
+    if(entity) {
+      return entity.remove()
+        .then(() => {
+          res.status(204).end();
+        });
+    }
+  };
+}
+
+function handleEntityNotFound(res) {
+  return function(entity) {
+    if(!entity) {
+      res.status(404).end();
+      return null;
+    }
+    return entity;
+  };
+}
+
+function handleError(res, statusCode) {
+  statusCode = statusCode || 500;
+  return function(err) {
+    res.status(statusCode).send(err);
+  };
+}
+
 /**
  * Login required middleware
  */
@@ -584,4 +622,23 @@ exports.authGithub = function(req, res) {
 
 exports.authGithubCallback = function(req, res) {
   res.send('Loading...');
+};
+
+exports.myVotes = function(req, res) {
+  var userId = req.user._id;
+
+  return User.findOne({_id: userId})
+    .populate('votes').exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+};
+
+exports.myPolls = function(req, res) {
+  console.log(req.user);
+  var userId = req.user._id;
+
+  return User.findOne({_id: userId})
+    .populate('polls').exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
 };

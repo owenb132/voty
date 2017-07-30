@@ -55,17 +55,15 @@ angular.module('Votapalooza')
 
 		    Poll.createPoll($scope.newPoll)
 		        .then(function (response) {
+                    // Reset new poll
 		            $scope.newPoll = {
                         owner: $scope.profile._id,
                         options: []
                     };
 
-		            $scope.created = true;
+		            $scope.profile.polls.push(response.data._id);
 
-		            $scope.profile.polls.push({
-		                _id: response.data._id
-		            });
-
+                    // Update user's polls list
 		            $http.put('/account', $scope.profile).then(function(response) {
 		                $scope.success = 'Poll created successfully!';
                         console.log(response);

@@ -97,6 +97,9 @@ app.post('/api/polls', pollController.create);
 app.patch('/api/polls/:id', pollController.patch);
 app.delete('/api/polls/:id', pollController.destroy);
 
+app.get('/me/polls', userController.myPolls);
+app.get('/me/votes', userController.myVotes);
+
 app.get('*', function(req, res) {
   res.redirect('/#' + req.originalUrl);
 });

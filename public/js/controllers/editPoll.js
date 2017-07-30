@@ -20,6 +20,7 @@ angular.module('Votapalooza')
                 $scope.poll = {};
                 $scope.profile.polls.splice($scope.profile.polls.findIndex(function(el) { return el._id === $scope.poll._id }), 1);
 
+                // Update user's polls list
                 $http.put('/account', $scope.profile).then(function(response) {
                         $scope.success = 'Poll deleted successfully!';
                         console.log(response);
@@ -37,7 +38,6 @@ angular.module('Votapalooza')
     };
 
     $scope.saveUpdates = function() {
-
         $scope.errors.name.message = '';
         $scope.errors.options.message = '';
 
