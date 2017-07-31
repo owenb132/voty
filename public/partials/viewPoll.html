@@ -12,5 +12,7 @@
 			<a ng-if="poll.owner === profile._id" class="button float-left" href="/poll/edit/{{poll._id}}">Edit</a>
 			<button ng-if="poll.owner === profile._id" ng-click="deletePoll()" class="button alert float-left">Delete</button>
 		</div>
+
+		<p><a href="{{baseUrl}}/poll/{{poll._id}}">Share this poll</a></p>
 	</div>
 </div>

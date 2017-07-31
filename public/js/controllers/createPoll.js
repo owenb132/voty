@@ -67,6 +67,7 @@ angular.module('Votapalooza')
                     };
 
 		            $scope.profile.polls.push(response.data._id);
+                    $scope.pollId = response.data._id;
 
                     // Update user's polls list
 		            Account.updateUser($scope.profile._id, $scope.profile).then(function(response) {

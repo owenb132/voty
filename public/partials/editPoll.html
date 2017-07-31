@@ -19,7 +19,11 @@
             <button ng-click="deletePoll()" class="button alert">Delete</button>
             <a href="/poll/{{poll._id}}" class="button secondary">Back</a>
         </div>
+
+        <p><a href="{{baseUrl}}/poll/{{poll._id}}">Share this poll</a></p>
     </div>
+
+
 
     <div ng-if="poll._id && (poll.owner !== profile._id)">
         <h1>You cannot edit this poll.</h1>

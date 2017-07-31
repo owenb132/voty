@@ -1,0 +1,2 @@
+[ ] - Retrieve only latest n polls on homepage
+[ ] - Implement My Votes section
