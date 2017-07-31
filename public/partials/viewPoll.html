@@ -8,7 +8,7 @@
 		</ul>
 		
 		<div class="button-group">
-			<button ng-if="!voted" class="button float-left" ng-click="vote(choice)">Vote</button>
+			<button ng-if="poll._id && !voted" class="button float-left" ng-click="vote(choice)">Vote</button>
 			<a ng-if="poll.owner === profile._id" class="button float-left" href="/poll/edit/{{poll._id}}">Edit</a>
 			<button ng-if="poll.owner === profile._id" ng-click="deletePoll()" class="button alert float-left">Delete</button>
 		</div>

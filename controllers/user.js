@@ -634,7 +634,6 @@ exports.myVotes = function(req, res) {
 };
 
 exports.myPolls = function(req, res) {
-  console.log(req.user);
   var userId = req.user._id;
 
   return User.findOne({_id: userId})

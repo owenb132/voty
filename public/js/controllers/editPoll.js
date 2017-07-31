@@ -1,5 +1,5 @@
 angular.module('Votapalooza')
-  .controller('EditPollCtrl', function($scope, $rootScope, $routeParams, Poll) {
+  .controller('EditPollCtrl', function($scope, $rootScope, $routeParams, $http, Poll) {
     $scope.profile = $rootScope.currentUser;
 
     $scope.errors = {
