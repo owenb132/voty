@@ -81,3 +81,11 @@ exports.destroy = function(req, res) {
 		.catch(handleError(res));
 }
 
+exports.getUser = function(req, res) {
+  return Poll.findById(req.params.id)
+    .populate('owner').exec()
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+};
+

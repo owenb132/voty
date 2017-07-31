@@ -1,3 +1,3 @@
 [ ] - Retrieve only latest n polls on homepage
-[ ] - Implement My Votes section
-[ ] - Users can add options to another user's poll if that user allows it
+[x] - Implement My Votes section
+[ ] - Users can add options to another user's poll if the poll creator allows it

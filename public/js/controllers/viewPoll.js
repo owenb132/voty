@@ -176,6 +176,16 @@ angular.module('Votapalooza')
                 // Update the view with the response
                 $scope.poll = response.data;
                 $scope.checkAlreadyVoted();
+
+                // Get poll creator
+                Poll.getUser(response.data._id)
+                    .then(function(response) {
+                        $scope.pollCreator = response.data.owner;
+                        console.log(response.data);
+                    }, function(response) {
+                        console.log(response);
+                    });
+
             }, function(response) {
                 console.log('Error');
                 console.log(response);

@@ -1,7 +1,6 @@
 angular.module('Votapalooza')
   .controller('EditPollCtrl', function($window, $scope, $routeParams, $http, Poll, User) {
     $scope.profile = User.getCurrentUser();
-    $scope.baseUrl = $location.protocol() + '://' + $location.host() + ':' + $location.port();
 
     $scope.errors = {
         name: {

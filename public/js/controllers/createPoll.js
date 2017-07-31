@@ -1,5 +1,5 @@
 angular.module('Votapalooza')
-  .controller('CreatePollCtrl', function($window, $scope, $http, $auth, Account, Poll, User) {
+  .controller('CreatePollCtrl', function($window, $scope, $location, $http, $auth, Account, Poll, User) {
   	$scope.profile = User.getCurrentUser();
     $scope.baseUrl = $location.protocol() + '://' + $location.host() + ':' + $location.port();
     console.log($scope.profile);
