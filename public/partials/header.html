@@ -11,6 +11,7 @@
         <li><a href="/" ng-class="{ active: isActive('/')}">Home</a></li>
         <li ng-if="isAuthenticated()"><a href="/create" ng-class="{ active: isActive('/create')}">Create</a></li>
         <li ng-if="isAuthenticated()"><a href="/me/polls" ng-class="{ active: isActive('/me/polls')}">My Polls</a></li>
+        <li ng-if="isAuthenticated()"><a href="/me/votes" ng-class="{ active: isActive('/me/votes')}">My Votes</a></li>
       </ul>
     </div>
     <div ng-if="isAuthenticated()" class="top-bar-right">

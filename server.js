@@ -98,6 +98,7 @@ app.delete('/api/polls/:id', pollController.destroy);
 app.get('/api/votes', voteController.index);
 app.get('/api/votes/:id', voteController.show);
 app.get('/api/votes/:id/user', voteController.getUser);
+app.get('/api/votes/:id/poll', voteController.getPoll);
 app.post('/api/votes', voteController.create);
 app.patch('/api/votes/:id', voteController.patch);
 app.delete('/api/votes/:id', voteController.destroy);

@@ -89,3 +89,11 @@ exports.destroy = function(req, res) {
 		.catch(handleError(res));
 }
 
+exports.getPoll = function(req, res) {
+  return Vote.findById(req.params.id)
+    .populate('poll').exec()
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+};
+

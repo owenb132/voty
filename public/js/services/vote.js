@@ -23,6 +23,9 @@ angular.module('Votapalooza')
 
       getUser: function(voteId) {
         return $http.get('/api/votes/' + voteId + '/user');
+      },
+      getPoll: function(voteId) {
+        return $http.get('/api/votes/' + voteId + '/poll');
       }
     };
   });
