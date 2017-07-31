@@ -1,11 +1,16 @@
 angular.module('Votapalooza')
-    .controller('ViewPollCtrl', function($window, $scope, $rootScope, $routeParams, $http, Vote, Poll, Account) {
-        $scope.profile = $rootScope.currentUser;
+    .controller('ViewPollCtrl', function($window, $scope, $routeParams, $http, User, Vote, Poll, Account) {
+        $scope.profile = User.getCurrentUser();
+        console.log($scope.profile);
+        
         $scope.voted = false;
         $scope.data = {
             choice: ''
         };
-        console.log($scope.profile);
+
+        $scope.$watch(User.getCurrentUser, function(user) {
+            $scope.profile = user;
+        }, true);
 
         $scope.vote = function(choice) {
             var optionIndex = $scope.poll.options.findIndex(function(opt) { return opt.text === choice });
@@ -38,8 +43,7 @@ angular.module('Votapalooza')
                     Account.updateUser($scope.profile._id, $scope.profile)
                         .then(function(response) {
                             $scope.success = 'Successfully logged vote!';
-                            $rootScope.currentUser = response.data;
-                            $window.localStorage.user = JSON.stringify(response.data);
+                            User.setCurrentUser(response.data);
                         }, function(response) {
                             console.log(response);
                         });
@@ -107,9 +111,7 @@ angular.module('Votapalooza')
                     Account.updateUser(user._id, user)
                         .then(function(response) {
                             if ($scope.profile._id === response.data._id) {
-                                $scope.profile = response.data;
-                                $rootScope.currentUser = response.data;
-                                $window.localStorage.user = JSON.stringify(response.data);
+                                User.setCurrentUser(response.data);
                             }
                             callback(null, response.data);
                         }, function(response) {
@@ -142,10 +144,8 @@ angular.module('Votapalooza')
 
                     // Save updated user to db
                     Account.updateUser($scope.profile._id, $scope.profile).then(function(response) {
+                        User.setCurrentUser(response.data);
                         $scope.success = 'Poll deleted successfully!';
-                        $scope.profile = response.data;
-                        $rootScope.currentUser = response.data;
-                        $window.localStorage.user = JSON.stringify(response.data);
                         $scope.poll = {};
                         callback(null, response.data);
                     }, function(response) {

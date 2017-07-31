@@ -1,6 +1,6 @@
 angular.module('Votapalooza')
-  .controller('EditPollCtrl', function($window, $scope, $rootScope, $routeParams, $http, Poll) {
-    $scope.profile = $rootScope.currentUser;
+  .controller('EditPollCtrl', function($window, $scope, $routeParams, $http, Poll, User) {
+    $scope.profile = User.getCurrentUser();
 
     $scope.errors = {
         name: {
@@ -10,6 +10,10 @@ angular.module('Votapalooza')
             message: ''
         }
     };
+
+    $scope.$watch(User.getCurrentUser, function(user) {
+        $scope.profile = user;
+    }, true);
 
     var NEW_POLL_NAME_ERROR = 'You must enter a name for your poll.';
     var NEW_POLL_OPTIONS_ERROR = 'You must enter at least two options for your poll.';
@@ -22,14 +26,12 @@ angular.module('Votapalooza')
 
                 // Update user's polls list
                 Account.updateUser($scope.profile._id, $scope.profile).then(function(response) {
-                        $scope.success = 'Poll deleted successfully!';
-                        $rootScope.currentUser = response.data;
-                        $window.localStorage.user = JSON.stringify(response.data.user);
-                        console.log(response);
-                    }, function (response) {
-                        $scope.error = `Error deleting poll: ${response.status} ${response.statusText}`;
-                        console.log(response);
-                    });
+                    User.setCurrentUser(response.data);
+                    $scope.success = 'Poll deleted successfully!';
+                }, function (response) {
+                    $scope.error = `Error deleting poll: ${response.status} ${response.statusText}`;
+                    console.log(response);
+                });
             }, function(response) {
                 console.log(response);
             });

@@ -1,6 +1,7 @@
 angular.module('Votapalooza')
-  .controller('CreatePollCtrl', function($window, $scope, $rootScope, $http, $auth, Account, Poll) {
-  	$scope.profile = $rootScope.currentUser;
+  .controller('CreatePollCtrl', function($window, $scope, $http, $auth, Account, Poll, User) {
+  	$scope.profile = User.getCurrentUser();
+    console.log($scope.profile);
 
   	$scope.placeholders = ['Coke', 'Pepsi'];
 
@@ -19,6 +20,10 @@ angular.module('Votapalooza')
             message: ''
         }
     };
+
+    $scope.$watch(User.getCurrentUser, function(user) {
+        $scope.profile = user;
+    }, true);
 
     var NEW_POLL_NAME_ERROR = 'You must enter a name for your poll.';
     var NEW_POLL_OPTIONS_ERROR = 'You must enter at least two options for your poll.';
@@ -66,9 +71,7 @@ angular.module('Votapalooza')
                     // Update user's polls list
 		            Account.updateUser($scope.profile._id, $scope.profile).then(function(response) {
 		                $scope.success = 'Poll created successfully!';
-                        $rootScope.currentUser = response.data;
-                        $window.localStorage.user = JSON.stringify(response.data);
-                        console.log(response);
+                        User.setCurrentUser(response.data);
 		            }, function (response) {
 		                $scope.error = `Error creating poll: ${response.status} ${response.statusText}`;
 		                console.log(response);

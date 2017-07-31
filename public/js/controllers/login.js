@@ -1,10 +1,9 @@
 angular.module('Votapalooza')
-  .controller('LoginCtrl', function($scope, $rootScope, $location, $window, $auth) {
+  .controller('LoginCtrl', function($scope, $rootScope, $location, $window, $auth, User) {
     $scope.login = function() {
       $auth.login($scope.user)
         .then(function(response) {
-          $rootScope.currentUser = response.data.user;
-          $window.localStorage.user = JSON.stringify(response.data.user);
+          User.setCurrentUser(response.data.user);
           $location.path('/');
         })
         .catch(function(response) {
@@ -17,8 +16,7 @@ angular.module('Votapalooza')
     $scope.authenticate = function(provider) {
       $auth.authenticate(provider)
         .then(function(response) {
-          $rootScope.currentUser = response.data.user;
-          $window.localStorage.user = JSON.stringify(response.data.user);
+          User.setCurrentUser(response.data.user);
           $location.path('/');
         })
         .catch(function(response) {

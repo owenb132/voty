@@ -20,7 +20,6 @@ var User = require('./models/User');
 
 // Controllers
 var userController = require('./controllers/user');
-var contactController = require('./controllers/contact');
 var pollController = require('./controllers/poll');
 var voteController = require('./controllers/vote');
 
@@ -63,8 +62,6 @@ app.use(function(req, res, next) {
     next();
   }
 });
-
-app.post('/contact', contactController.contactPost);
 
 // Account
 app.put('/account', userController.ensureAuthenticated, userController.accountPut);

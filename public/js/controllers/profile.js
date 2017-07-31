@@ -1,12 +1,11 @@
 angular.module('Votapalooza')
-  .controller('ProfileCtrl', function($scope, $rootScope, $location, $window, $auth, Account) {
-    $scope.profile = $rootScope.currentUser;
+  .controller('ProfileCtrl', function($scope, $rootScope, $location, $window, $auth, Account, User) {
+    $scope.profile = User.getCurrentUser();;
 
     $scope.updateProfile = function() {
       Account.updateProfile($scope.profile)
         .then(function(response) {
-          $rootScope.currentUser = response.data.user;
-          $window.localStorage.user = JSON.stringify(response.data.user);
+          User.setCurrentUser(response.data.user);
           $scope.messages = {
             success: [response.data]
           };
@@ -63,6 +62,7 @@ angular.module('Votapalooza')
     $scope.deleteAccount = function() {
       Account.deleteAccount()
         .then(function() {
+          User.setCurrentUser({});
           $auth.logout();
           delete $window.localStorage.user;
           $location.path('/');
