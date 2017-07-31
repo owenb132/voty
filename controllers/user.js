@@ -633,11 +633,44 @@ exports.myVotes = function(req, res) {
     .catch(handleError(res));
 };
 
+exports.getVotes = function(req, res) {
+  var userId = req.params.id;
+
+  return User.findOne({_id: userId})
+    .populate('votes').exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+};
+
 exports.myPolls = function(req, res) {
   var userId = req.user._id;
 
   return User.findOne({_id: userId})
     .populate('polls').exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+};
+
+exports.getPolls = function(req, res) {
+  var userId = req.params.id;
+
+  return User.findOne({_id: userId})
+    .populate('polls').exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+};
+
+exports.updateUser = function(req, res) {
+  console.log(req.params.id);
+  return User.findOneAndUpdate({
+    _id: req.params.id
+  }, 
+    req.body, 
+  {
+    new: true
+  }
+  ).exec()
+    .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
 };

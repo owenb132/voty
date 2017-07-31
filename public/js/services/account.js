@@ -4,6 +4,9 @@ angular.module('Votapalooza')
       updateProfile: function(data) {
         return $http.put('/account', data);
       },
+      updateUser: function(userId, data) {
+        return $http.patch('/users/' + userId, data);
+      },
       changePassword: function(data) {
         return $http.put('/account', data);
       },
@@ -19,8 +22,14 @@ angular.module('Votapalooza')
       myPolls: function() {
         return $http.get('/me/polls');
       },
+      getPolls: function(userId) {
+        return $http.get('/users/' + userId + '/polls');
+      },
       myVotes: function() {
         return $http.get('me/votes');
-      }
+      },
+      getVotes: function(userId) {
+        return $http.get('/users/' + userId + '/votes');
+      },
     };
   });

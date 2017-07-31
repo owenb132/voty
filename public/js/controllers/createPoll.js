@@ -1,5 +1,5 @@
 angular.module('Votapalooza')
-  .controller('CreatePollCtrl', function($scope, $rootScope, $http, $auth, Poll) {
+  .controller('CreatePollCtrl', function($window, $scope, $rootScope, $http, $auth, Account, Poll) {
   	$scope.profile = $rootScope.currentUser;
 
   	$scope.placeholders = ['Coke', 'Pepsi'];
@@ -64,8 +64,10 @@ angular.module('Votapalooza')
 		            $scope.profile.polls.push(response.data._id);
 
                     // Update user's polls list
-		            $http.put('/account', $scope.profile).then(function(response) {
+		            Account.updateUser($scope.profile._id, $scope.profile).then(function(response) {
 		                $scope.success = 'Poll created successfully!';
+                        $rootScope.currentUser = response.data;
+                        $window.localStorage.user = JSON.stringify(response.data);
                         console.log(response);
 		            }, function (response) {
 		                $scope.error = `Error creating poll: ${response.status} ${response.statusText}`;

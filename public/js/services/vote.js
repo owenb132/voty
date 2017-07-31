@@ -19,6 +19,10 @@ angular.module('Votapalooza')
 
       deleteVote: function(voteId) {
       	return $http.delete('/api/votes/' + voteId);
+      },
+
+      getUser: function(voteId) {
+        return $http.get('/api/votes/' + voteId + '/user');
       }
     };
   });

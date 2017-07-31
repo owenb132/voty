@@ -22,6 +22,7 @@ var User = require('./models/User');
 var userController = require('./controllers/user');
 var contactController = require('./controllers/contact');
 var pollController = require('./controllers/poll');
+var voteController = require('./controllers/vote');
 
 var app = express();
 
@@ -97,8 +98,19 @@ app.post('/api/polls', pollController.create);
 app.patch('/api/polls/:id', pollController.patch);
 app.delete('/api/polls/:id', pollController.destroy);
 
+app.get('/api/votes', voteController.index);
+app.get('/api/votes/:id', voteController.show);
+app.get('/api/votes/:id/user', voteController.getUser);
+app.post('/api/votes', voteController.create);
+app.patch('/api/votes/:id', voteController.patch);
+app.delete('/api/votes/:id', voteController.destroy);
+
 app.get('/me/polls', userController.myPolls);
+app.get('/users/:id/polls', userController.getPolls);
 app.get('/me/votes', userController.myVotes);
+app.get('/users/:id/votes', userController.getVotes);
+
+app.patch('/users/:id', userController.updateUser);
 
 app.get('*', function(req, res) {
   res.redirect('/#' + req.originalUrl);

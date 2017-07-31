@@ -1,5 +1,5 @@
 angular.module('Votapalooza')
-  .controller('EditPollCtrl', function($scope, $rootScope, $routeParams, $http, Poll) {
+  .controller('EditPollCtrl', function($window, $scope, $rootScope, $routeParams, $http, Poll) {
     $scope.profile = $rootScope.currentUser;
 
     $scope.errors = {
@@ -21,8 +21,10 @@ angular.module('Votapalooza')
                 $scope.profile.polls.splice($scope.profile.polls.findIndex(function(el) { return el._id === $scope.poll._id }), 1);
 
                 // Update user's polls list
-                $http.put('/account', $scope.profile).then(function(response) {
+                Account.updateUser($scope.profile._id, $scope.profile).then(function(response) {
                         $scope.success = 'Poll deleted successfully!';
+                        $rootScope.currentUser = response.data;
+                        $window.localStorage.user = JSON.stringify(response.data.user);
                         console.log(response);
                     }, function (response) {
                         $scope.error = `Error deleting poll: ${response.status} ${response.statusText}`;

@@ -1,65 +1,182 @@
 angular.module('Votapalooza')
-  .controller('ViewPollCtrl', function($scope, $rootScope, $routeParams, $http, Vote, Poll, Account) {
-    $scope.profile = $rootScope.currentUser;
+    .controller('ViewPollCtrl', function($window, $scope, $rootScope, $routeParams, $http, Vote, Poll, Account) {
+        $scope.profile = $rootScope.currentUser;
+        $scope.voted = false;
+        $scope.data = {
+            choice: ''
+        };
+        console.log($scope.profile);
 
-    $scope.vote = function() {
-        console.log($scope.choice);
-        // var optionIndex = $scope.poll.options.findIndex(function(opt) { return opt.text === choice });
-        // var myVote = {
-        //     user: $scope.profile._id,
-        //     poll: $scope.poll._id,
-        //     choice: choice
-        // };
+        $scope.vote = function(choice) {
+            var optionIndex = $scope.poll.options.findIndex(function(opt) { return opt.text === choice });
+            var myVote = {
+                user: $scope.profile._id,
+                poll: $scope.poll._id,
+                choice: choice
+            };
 
-        // Vote.createVote(myVote)
-        //     .then(function(response) {
-        //         $scope.poll.options[optionIndex].votes.push(response.data._id);
-        //         $scope.profile.votes.push(response.data._id);
-        //         console.log(response);
+            // Save vote to db
+            Vote.createVote(myVote)
+                .then(function(response) {
+                    // Add vote to poll model
+                    $scope.poll.options[optionIndex].votes.push(response.data._id);
 
-        //         Poll.updatePoll($scope.poll._id, $scope.poll)
-        //             .then(function(response) {
-        //                 console.log(response);
-        //                 $scope.poll = response.data;
-        //             }, function(response) {
-        //                 console.log(response);
-        //             });
+                    // Add vote to user model
+                    $scope.profile.votes.push(response.data._id);
 
-        //         Account.updateAccount($scope.profile)
-        //             .then(function(response) {
-        //                 console.log(response);
-        //             }, function(response) {
-        //                 console.log(response);
-        //             });
-        //     });
-    };
+                    // Save updated poll to db
+                    Poll.updatePoll($scope.poll._id, $scope.poll)
+                        .then(function(response) {
+                            // Update poll in view
+                            $scope.poll = response.data;
+                            $scope.voted = true;
+                        }, function(response) {
+                            console.log(response);
+                        });
 
-    $scope.deletePoll = function() {
-        Poll.deletePoll($scope.poll._id)
-            .then(function(response) {
-                $scope.poll = {};
-                $scope.profile.polls.splice($scope.profile.polls.findIndex(function(el) { return el._id === $scope.poll._id }), 1);
+                    // Save updated user to db
+                    Account.updateUser($scope.profile._id, $scope.profile)
+                        .then(function(response) {
+                            $scope.success = 'Successfully logged vote!';
+                            $rootScope.currentUser = response.data;
+                            $window.localStorage.user = JSON.stringify(response.data);
+                        }, function(response) {
+                            console.log(response);
+                        });
+                });
+        };
 
-                // Update user's polls list
-                $http.put('/account', $scope.profile).then(function(response) {
-                        $scope.success = 'Poll deleted successfully!';
-                        console.log(response);
-                    }, function (response) {
-                        $scope.error = `Error deleting poll: ${response.status} ${response.statusText}`;
-                        console.log(response);
+        $scope.deletePoll = function() {
+            async.series([
+                function(callback) {
+                    // For each option in this poll
+                    $scope.poll.options.forEach(function(opt) {
+
+                        // For each vote for this option
+                        opt.votes.forEach(function(vote) {
+
+                            async.series([
+                                function(callback) {
+                                    // Remove the vote from the user and update the user in the db
+                                    $scope.deleteVoteFromUser(vote, callback);
+                                },
+                                function(callback) {
+                                    // Then remove the vote from the db
+                                    $scope.deleteVoteFromDB(vote, callback);
+                                }
+                            ],
+                            function(err, results) {
+                                if (err) {
+                                    console.log(err);
+                                    callback(err);
+                                }
+
+                                if (results) {
+                                    callback(null, results);
+                                }
+                            });                           
+                        });
+                    });
+                },
+                function(callback) {
+                    // Once all the votes are deleted, delete the poll
+                    $scope.deletePollFromDB(callback);                    
+                }
+            ], 
+                function(err, results) {
+                if (err) {
+                    console.log(err);
+                    callback(err);
+                }
+                if (results) console.log(results);
+            });
+        };
+
+        $scope.deleteVoteFromUser = function(voteId, callback) {
+            // Get the vote's user
+            Vote.getUser(voteId)
+                .then(function(response) {
+                    var user = response.data.user;
+
+                    // Remove the vote from the user's votes list
+                    user.votes = user.votes.filter(function(userVote) {
+                        return userVote !== voteId;
                     });
 
+                    // Save updated user to db
+                    Account.updateUser(user._id, user)
+                        .then(function(response) {
+                            if ($scope.profile._id === response.data._id) {
+                                $scope.profile = response.data;
+                                $rootScope.currentUser = response.data;
+                                $window.localStorage.user = JSON.stringify(response.data);
+                            }
+                            callback(null, response.data);
+                        }, function(response) {
+                            console.log(response);
+                            callback(response);
+                        });
+                });
+        };
+
+        $scope.deleteVoteFromDB = function(voteId, callback) {
+            // Delete vote from db
+            Vote.deleteVote(voteId)
+                .then(function(response) {
+                    callback(null, 'Vote successfully deleted.');
+                }, function(response) {
+                    console.log(response);
+                    callback(response);
+                });
+        }
+
+        $scope.deletePollFromDB = function(callback) {
+            // Delete poll from db
+            Poll.deletePoll($scope.poll._id)
+                .then(function(response) {
+                    $scope.poll = {};
+
+                    // Remove poll id from user poll list
+                    var pollIndex = $scope.profile.polls.findIndex(function(poll) { return poll._id === $scope.poll._id });
+                    $scope.profile.polls.splice(pollIndex, 1);
+
+                    // Save updated user to db
+                    Account.updateUser($scope.profile._id, $scope.profile).then(function(response) {
+                        $scope.success = 'Poll deleted successfully!';
+                        $scope.profile = response.data;
+                        $rootScope.currentUser = response.data;
+                        $window.localStorage.user = JSON.stringify(response.data);
+                        $scope.poll = {};
+                        callback(null, response.data);
+                    }, function(response) {
+                        $scope.error = `Error deleting poll: ${response.status} ${response.statusText}`;
+                        callback(response);
+                    });
+
+                }, function(response) {
+                    callback(response);
+                });
+        };
+
+        $scope.checkAlreadyVoted = function() {
+            if ($scope.profile) {
+                Account.myVotes()
+                    .then(function(response) {
+                        $scope.voted = response.data.votes.some(function(vote) { return vote.poll === $scope.poll._id });
+                    }, function(response) {
+                        console.log(response);
+                    });
+            }
+        };
+
+        // Get one poll from db
+        Poll.getPoll($routeParams.id)
+            .then(function(response) {
+                // Update the view with the response
+                $scope.poll = response.data;
+                $scope.checkAlreadyVoted();
             }, function(response) {
+                console.log('Error');
                 console.log(response);
             });
-    };
-    
-    Poll.getPoll($routeParams.id)
-        .then(function(response) {
-            $scope.poll = response.data;
-            $scope.voted = $scope.profile.votes.indexOf($scope.poll._id) > -1;
-        }, function(response) {
-            console.log('Error');
-            console.log(response);
-        });
-  });
+    });
