@@ -1,8 +1,8 @@
 angular.module('Votapalooza')
   .factory('Poll', function($http) {
     return {
-      getAll: function() {
-        return $http.get('/api/polls');
+      getMostRecent: function() {
+        return $http.get('/api/polls', { n: 20 });
       },
 
       getPoll: function(pollId) {

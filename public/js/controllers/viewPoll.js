@@ -158,7 +158,7 @@ angular.module('Votapalooza')
         };
 
         $scope.checkAlreadyVoted = function() {
-            if ($scope.profile) {
+            if ($scope.profile._id) {
                 Account.myVotes()
                     .then(function(response) {
                         $scope.voted = response.data.votes.some(function(vote) { return vote.poll === $scope.poll._id });

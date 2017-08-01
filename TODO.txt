@@ -1,3 +1,5 @@
 [ ] - Retrieve only latest n polls on homepage
 [x] - Implement My Votes section
 [ ] - Users can add options to another user's poll if the poll creator allows it
+[ ] - Add error and success handling
+[ ] - Handle unauthenticated user voting

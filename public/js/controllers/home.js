@@ -1,6 +1,6 @@
 angular.module('Votapalooza')
   .controller('HomeCtrl', function($scope, Poll) {
-    Poll.getAll()
+    Poll.getMostRecent()
     	.then(function(response) {
     		$scope.polls = response.data;
     	}, function(response) {

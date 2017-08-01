@@ -47,6 +47,14 @@ exports.index = function(req, res) {
 		.catch(handleError(res));
 };
 
+exports.mostRecentN = function(req, res) {
+  var n = req.body.n;
+
+  return Poll.find().sort({"createdAt": -1}).limit(n).exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+};
+
 exports.show = function(req, res) {
 	return Poll.findById(req.params.id).exec()
 		.then(handleEntityNotFound(res))

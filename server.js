@@ -89,7 +89,7 @@ app.post('/auth/github', userController.authGithub);
 app.get('/auth/github/callback', userController.authGithubCallback);
 
 // Api routes
-app.get('/api/polls', pollController.index);
+app.get('/api/polls', pollController.mostRecentN);
 app.get('/api/polls/:id', pollController.show);
 app.get('/api/polls/:id/user', pollController.getUser);
 app.post('/api/polls', pollController.create);
@@ -125,7 +125,7 @@ if (app.get('env') === 'production') {
 }
 
 if (app.get('env') === 'development') {
-  require('./seed');
+  // require('./seed');
 }
 
 app.listen(app.get('port'), function() {
