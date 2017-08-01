@@ -5,16 +5,12 @@ angular.module('Votapalooza')
   	$scope.votes = [];
 
   	async.parallel([
+
+      // Get this user's polls
   		function(callback) {
-        // Get this user's polls
-  			User.getPolls($routeParams.id)
-  				.then(function(response) {
-  					$scope.polls = response.data.polls;
-  					callback(response.data.polls);
-  				}, function(response) {
-  					callback(response);
-  				});
+        getUserPolls($routeParams.id, callback)
   		},
+
   		function(votesCallback) {
         // Get this user's votes
   			User.getVotes($routeParams.id)
@@ -23,15 +19,8 @@ angular.module('Votapalooza')
   					
             // For each vote get the poll information
             async.each(votes, function(vote, callback) {
-              Vote.getPoll(vote._id)
-                .then(function(response) {
-                  $scope.votes.push({ choice: vote.choice, poll: response.data.poll });
+              getPollInformation(vote, callback);
 
-                  // Got this poll's information
-                  callback(null, response.data.poll);
-                }, function(response) {
-                  callback(response);
-                });
             }, function(err, results) {
               if (err) {
                 $scope.messages = { error: err };
@@ -45,15 +34,10 @@ angular.module('Votapalooza')
   					callback(response);
   				});
   		},
+
+      // Get this user's full information
   		function(callback) {
-        // Get this user's full information
-  			User.getUser($routeParams.id)
-  				.then(function(response) {
-  					$scope.user = response.data;
-  					callback(null, response.data.user);
-  				}, function(response) {
-  					callback(response.data);
-  				});
+        getUserInformation($routeParams.id, callback);  			
   		}
   	], 
 
@@ -63,4 +47,34 @@ angular.module('Votapalooza')
         error: err
       }
     });
+
+    function getUserPolls(userId, callback) {
+      User.getPolls(userId)
+        .then(function(response) {
+          $scope.polls = response.data.polls;
+          callback(response.data.polls);
+        }, function(response) {
+          callback(response);
+        });
+    }
+
+    function getPollInformation(vote, callback) {
+      Vote.getPoll(vote._id)
+        .then(function(response) {
+          $scope.votes.push({ choice: vote.choice, poll: response.data.poll });
+          callback(null, response.data.poll);
+        }, function(response) {
+          callback(response);
+        });
+    }
+
+    function getUserInformation(userId, callback) {
+      User.getUser(userId)
+          .then(function(response) {
+            $scope.user = response.data;
+            callback(null, response.data.user);
+          }, function(response) {
+            callback(response.data);
+          });
+    }
   });
