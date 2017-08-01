@@ -16,6 +16,12 @@ angular.module('Votapalooza')
       },
       getCurrentUser: function() {
         return currentUser;
+      },
+      getPolls: function(userId) {
+        return $http.get('/users/' + userId + '/polls');
+      },
+      getVotes: function(userId) {
+        return $http.get('/users/' + userId + '/votes');
       }
     };
   });

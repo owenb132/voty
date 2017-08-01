@@ -4,7 +4,7 @@ angular.module('Votapalooza')
     $scope.polls = [];
 
     $scope.getPolls = function() {     
-        Account.getPolls($scope.profile._id)
+        Account.myPolls()
             .then(function (response) {
                 $scope.polls = response.data.polls;
             }, function (response) {

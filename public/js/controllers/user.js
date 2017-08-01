@@ -7,7 +7,7 @@ angular.module('Votapalooza')
   	async.parallel([
   		function(callback) {
         // Get this user's polls
-  			Account.getPolls($routeParams.id)
+  			User.getPolls($routeParams.id)
   				.then(function(response) {
   					$scope.polls = response.data.polls;
   					callback(response.data.polls);
@@ -17,7 +17,7 @@ angular.module('Votapalooza')
   		},
   		function(votesCallback) {
         // Get this user's votes
-  			Account.getVotes($routeParams.id)
+  			User.getVotes($routeParams.id)
   				.then(function(response) {
   					var votes = response.data.votes;
   					
