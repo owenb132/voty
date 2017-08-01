@@ -10,11 +10,12 @@ angular.module('Votapalooza', ['ngRoute', 'satellizer'])
         templateUrl: 'partials/create.html',
         resolve: { loginRequired: loginRequired }
       })
-      .when('/me/polls', {
+      .when('/mypolls', {
         templateUrl: 'partials/myPolls.html',
+        controller: 'PollsCtrl',
         resolve: { loginRequired: loginRequired }
       })
-      .when('/me/votes', {
+      .when('/myvotes', {
         templateUrl: 'partials/myVotes.html',
         resolve: { loginRequired: loginRequired }
       })

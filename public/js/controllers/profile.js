@@ -1,6 +1,6 @@
 angular.module('Votapalooza')
   .controller('ProfileCtrl', function($scope, $rootScope, $location, $window, $auth, Account, User) {
-    $scope.profile = User.getCurrentUser();;
+    $scope.profile = User.getCurrentUser();
 
     $scope.updateProfile = function() {
       Account.updateProfile($scope.profile)

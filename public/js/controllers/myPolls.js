@@ -1,10 +1,10 @@
 angular.module('Votapalooza')
-  .controller('PollsCtrl', function($scope, $location, $rootScope, Account) {
+  .controller('PollsCtrl', function($scope, $location, Account, User) {
+    $scope.profile = User.getCurrentUser();
     $scope.polls = [];
-    $scope.baseUrl = $location.protocol() + '://' + $location.host() + ':' + $location.port();
 
     $scope.getPolls = function() {     
-        Account.myPolls()
+        Account.getPolls($scope.profile._id)
             .then(function (response) {
                 $scope.polls = response.data.polls;
             }, function (response) {
