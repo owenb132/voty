@@ -1,8 +1,6 @@
 angular.module('Votapalooza')
     .controller('ViewPollCtrl', function($window, $location, $scope, $routeParams, $http, User, Vote, Poll, Account) {
         $scope.profile = User.getCurrentUser();
-        $scope.baseUrl = $location.protocol() + '://' + $location.host() + ':' + $location.port();
-        console.log($scope.profile);
         
         $scope.voted = false;
         $scope.data = {
