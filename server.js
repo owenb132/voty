@@ -109,6 +109,7 @@ app.get('/users/:id/polls', userController.getPolls);
 app.get('/me/votes', userController.myVotes);
 app.get('/users/:id/votes', userController.getVotes);
 
+app.get('/users/:id', userController.showUser);
 app.patch('/users/:id', userController.updateUser);
 
 app.get('*', function(req, res) {

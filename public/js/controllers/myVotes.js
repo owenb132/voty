@@ -1,7 +1,6 @@
 angular.module('Votapalooza')
-  .controller('VotesCtrl', function($scope, $rootScope, $location, Account, Vote) {
+  .controller('VotesCtrl', function($scope, $rootScope, Account, Vote) {
     $scope.votes = [];
-    $scope.baseUrl = $location.protocol() + '://' + $location.host() + ':' + $location.port();
 
     $scope.getVotes = function() {     
         Account.myVotes()

@@ -30,6 +30,6 @@ angular.module('Votapalooza')
       },
       getVotes: function(userId) {
         return $http.get('/users/' + userId + '/votes');
-      },
+      }
     };
   });

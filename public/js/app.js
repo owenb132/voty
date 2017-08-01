@@ -25,6 +25,9 @@ angular.module('Votapalooza', ['ngRoute', 'satellizer'])
         templateUrl: 'partials/editPoll.html',
         resolve: { loginRequired: loginRequired }
       })
+      .when('/user/:id', {
+        templateUrl: 'partials/user.html'
+      })
       .when('/login', {
         templateUrl: 'partials/login.html',
         controller: 'LoginCtrl',

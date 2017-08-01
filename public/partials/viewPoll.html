@@ -1,5 +1,5 @@
 <div ng-controller="ViewPollCtrl" class="container">
-		<h1>Viewing poll {{poll.text}} by <a href="/users/{{pollCreator._id}}">{{pollCreator.name}}</a></h1>
+		<h1>Viewing poll {{poll.text}} by <a href="/user/{{pollCreator._id}}">{{pollCreator.name}}</a></h1>
 		<ul>
 			<li ng-repeat="option in poll.options">
 				<input type="radio" name="vote" value="{{option.text}}" ng-model="data.choice" ng-show="!voted">

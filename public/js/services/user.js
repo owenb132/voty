@@ -7,6 +7,9 @@ angular.module('Votapalooza')
     }
 
     return {
+      getUser: function(userId) {
+        return $http.get('/users/' + userId);
+      },
       setCurrentUser: function(user) {
         currentUser = user;
         $window.localStorage.user = JSON.stringify(user);

@@ -661,7 +661,6 @@ exports.getPolls = function(req, res) {
 };
 
 exports.updateUser = function(req, res) {
-  console.log(req.params.id);
   return User.findOneAndUpdate({
     _id: req.params.id
   }, 
@@ -670,6 +669,13 @@ exports.updateUser = function(req, res) {
     new: true
   }
   ).exec()
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+};
+
+exports.showUser = function(req, res) {
+  return User.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
