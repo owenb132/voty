@@ -21,7 +21,7 @@ angular.module('Votapalooza')
       	return $http.delete('/api/polls/' + pollId);
       },
 
-      getUser: function(pollId) {
+      getOwner: function(pollId) {
         return $http.get('/api/polls/' + pollId + '/user');
       }
     };

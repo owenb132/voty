@@ -78,7 +78,7 @@ exports.create = function(req, res) {
   var poll = req.body;
 
 	Poll.create(poll)
-		.then(function(result) {
+		.then(result => {
       user.polls.push(result._id);
 
       return User.findByIdAndUpdate(user._id, user, { new: true }).exec()
@@ -110,34 +110,33 @@ exports.destroy = function(req, res) {
 	Poll.findById(req.params.id)
     .populate('owner').exec()
 		.then(handleEntityNotFound(res))
-		.then(function(poll) {
+		.then(poll => {
 
       async.series([
-        // First handle all the votes in the poll
-        function(callback) {
-          async.each(poll.options, function(option, optionsCallback) {
+        callback => {
+          async.each(poll.options, (option, optionsCallback) => {
 
             if (option.votes.length > 0) {
-              async.each(option.votes, function(voteId, votesCallback) {
+              async.each(option.votes, (voteId, votesCallback) => {
                 Vote.findById(voteId)
                   .populate('user').exec()
                   .then(handleEntityNotFound(res))
-                  .then(function(vote) {
+                  .then(vote => {
 
                     async.parallel([
                       // Remove vote from user
-                      function(callback) {
+                      callback => {
                         deleteVoteFromUser(vote, res, callback);
                       },
 
                       // Remove vote from db
-                      function(callback) {
+                      callback => {
                         deleteVoteFromDb(vote, callback);
                       }
                     ], 
 
                     // Processed this vote
-                    function(err, results) {
+                    (err, results) => {
                       if (err) {
                         callback(err);
                       } else if (results) {
@@ -148,7 +147,7 @@ exports.destroy = function(req, res) {
                   .catch(handleError(res));
 
                 // Processed all votes for this option
-                }, function(err) {
+                }, err => {
                   if (!err) {
                     optionsCallback();
                   } else {
@@ -160,7 +159,7 @@ exports.destroy = function(req, res) {
             }
 
           // Processed all options for this poll
-          }, function(err) {
+          }, err => {
             if (!err) {
               callback();
             } else {
@@ -169,21 +168,21 @@ exports.destroy = function(req, res) {
           });
         },
 
-        // Handle the poll itself
-        function(callback) {
+        // Now process the poll itself
+        callback => {
           async.parallel([
             // Remove poll from user
-            function(callback) {
+            callback => {
               deletePollFromUser(poll, res, callback);
             },
 
             // Remove poll from db
-            function(callback) {
+            callback => {
               deletePollFromDb(poll, callback);
             }
           ],
             // Poll operations complete
-            function(err, results) {
+            (err, results) => {
               if (err) {
                 callback(err);
               } else if (results) {
@@ -193,10 +192,10 @@ exports.destroy = function(req, res) {
         },
       ],
         // All operations complete
-        function(err, results) {
+        (err, results) => {
           if (err) res.status(500).send(err);
           if (results) {
-            var resultArr = _.flattenDeep(results);
+            const resultArr = _.flattenDeep(results);
 
             /* 
             * Get user from results array.
@@ -204,7 +203,7 @@ exports.destroy = function(req, res) {
             * user will be the only thing in the callbacks results array (most likely a 
             * better way to do this).
             */
-            var updatedUser = resultArr
+            const updatedUser = resultArr
               .filter(el => el !== undefined)[0];
 
             res.status(200).json(updatedUser);
@@ -220,22 +219,14 @@ function deleteVoteFromUser(vote, res, callback) {
 
   User.findByIdAndUpdate(voter._id, { votes: voter.votes }, { new: true }).exec()
     .then(handleEntityNotFound(res))
-    .then(function(user) {
-      callback(null, user);
-    })
-    .catch(function(err) {
-      callback(err);
-    });
+    .then(user => { callback(null, user) })
+    .catch(err => { callback(err) });
 }
 
 function deleteVoteFromDb(vote, callback) {
   vote.remove()
-    .then(function(vote) {
-      callback(null, vote);
-    })
-    .catch(function(err) {
-      callback(err);
-    });
+    .then(vote => { callback(null, vote) })
+    .catch(err => { callback(err) });
 }
 
 function deletePollFromUser(poll, res, callback) {
@@ -244,20 +235,12 @@ function deletePollFromUser(poll, res, callback) {
 
   return User.findByIdAndUpdate(user._id, { polls: user.polls }, { new: true }).exec()
     .then(handleEntityNotFound(res))
-    .then(function(user) {
-      callback(null, user); // Return the updated user so that we can access it in the view's controller
-    })
-    .catch(function(err) {
-      callback(err);
-    });
+    .then(user => { callback(null, user) }) // Return the updated user so that we can access it in the view's controller
+    .catch(err => { callback(err) });
 }
 
 function deletePollFromDb(poll, callback) {
   poll.remove()
-    .then(function(poll) {
-      callback();
-    })
-    .catch(function(err) {
-      callback(err);
-    });
+    .then(poll => { callback() })
+    .catch(err => { callback(err) });
 }

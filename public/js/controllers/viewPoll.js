@@ -81,10 +81,9 @@ angular.module('Votapalooza')
                 $scope.checkAlreadyVoted();
 
                 // Get poll creator
-                Poll.getUser(response.data._id)
+                Poll.getOwner(response.data._id)
                     .then(function(response) {
                         $scope.pollCreator = response.data.owner;
-                        console.log(response.data);
                     }, function(response) {
                         console.log(response);
                     });

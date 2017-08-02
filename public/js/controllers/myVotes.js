@@ -17,7 +17,7 @@ angular.module('Votapalooza')
                             vote.poll = response.data.poll;
 
                             // Then get the owner information for this poll
-                            Poll.getUser(vote.poll._id)
+                            Poll.getOwner(vote.poll._id)
                                 .then(function(response) {
                                     vote.poll.owner = response.data.owner;
                                     $scope.votes.push(vote);
