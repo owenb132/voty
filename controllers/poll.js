@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var Poll = require('../models/Poll');
+var User = require('../models/User');
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -63,8 +64,18 @@ exports.show = function(req, res) {
 };
 
 exports.create = function(req, res) {
-	return Poll.create(req.body)
-		.then(respondWithResult(res, 201))
+  var user = req.user;
+  var poll = req.body;
+
+	Poll.create(poll)
+		.then(function(result) {
+      user.polls.push(result._id);
+
+      return User.findByIdAndUpdate(user._id, user, { new: true }).exec()
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+    })
 		.catch(handleError(res));
 };
 

@@ -125,7 +125,7 @@ if (app.get('env') === 'production') {
 }
 
 if (app.get('env') === 'development') {
-  // require('./seed');
+  require('./seed');
 }
 
 app.listen(app.get('port'), function() {

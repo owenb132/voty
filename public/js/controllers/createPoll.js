@@ -65,17 +65,8 @@ angular.module('Votapalooza')
                         options: []
                     };
 
-		            $scope.profile.polls.push(response.data._id);
-                    $scope.pollId = response.data._id;
-
-                    // Update user's polls list
-		            Account.updateUser($scope.profile._id, $scope.profile).then(function(response) {
-		                $scope.success = 'Poll created successfully!';
-                        User.setCurrentUser(response.data);
-		            }, function (response) {
-		                $scope.error = `Error creating poll: ${response.status} ${response.statusText}`;
-		                console.log(response);
-		            });
+                    // Update local user
+                    User.setCurrentUser(response.data);
 		        
 		        }, function (response) {
 		            $scope.error = `Error creating poll: ${response.status} ${response.statusText}`;
