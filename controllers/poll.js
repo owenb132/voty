@@ -6,9 +6,8 @@ var Poll = require('../models/Poll');
 var Vote = require('../models/Vote');
 var User = require('../models/User');
 
-function respondWithResult(res, statusCode) {
-  statusCode = statusCode || 200;
-  return function(entity) {
+function respondWithResult(res, statusCode=200) {
+  return entity => {
     if(entity) {
       return res.status(statusCode).json(entity);
     }
@@ -17,7 +16,7 @@ function respondWithResult(res, statusCode) {
 }
 
 function removeEntity(res) {
-  return function(entity) {
+  return entity => {
     if(entity) {
       return entity.remove()
         .then(() => {
@@ -28,7 +27,7 @@ function removeEntity(res) {
 }
 
 function handleEntityNotFound(res) {
-  return function(entity) {
+  return entity => {
     if(!entity) {
       res.status(404).end();
       return null;
@@ -37,9 +36,8 @@ function handleEntityNotFound(res) {
   };
 }
 
-function handleError(res, statusCode) {
-  statusCode = statusCode || 500;
-  return function(err) {
+function handleError(res, statusCode=500) {
+  return err => {
     res.status(statusCode).send(err);
   };
 }
