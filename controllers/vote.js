@@ -66,24 +66,32 @@ exports.getUser = function(req, res) {
 };
 
 exports.create = function(req, res) {
+  var authenticated = req.body.authenticated;
   var user = req.user;
   var vote = req.body;
   var pollId = vote.poll;
   var choice = vote.choice;
 
+  if (authenticated) {
+    vote.user = user._id;
+  } else {
+    vote.ip = req.ip;
+  }
+
   // Save the vote to db
   Vote.create(vote)
     .then(result => {
-      user.votes.push(result._id);
 
       async.parallel([
+
+        // Get poll information in order to update its votes list
         callback => {
-          // Get poll information in order to update its votes list
           Vote.findOne(result)
             .populate('poll').exec()
             .then(handleEntityNotFound(res))
             .then(_vote => {
               var poll = _vote.poll;
+
               // Add the vote to the corect option
               var optionIndex = poll.options.findIndex(opt => opt.text === choice);
               poll.options[optionIndex].votes.push(result._id);
@@ -96,7 +104,12 @@ exports.create = function(req, res) {
 
         // Update user and save to db
         callback => {
-          addVoteToUser(user._id, user.votes, res, callback);
+          if (authenticated) {
+            user.votes.push(result._id);
+            addVoteToUser(user._id, user.votes, res, callback);
+          } else {
+            callback();
+          }
         }
       ],
         // All operations complete
@@ -136,6 +149,13 @@ exports.destroy = function(req, res) {
 exports.getPoll = function(req, res) {
   return Vote.findById(req.params.id)
     .populate('poll').exec()
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+};
+
+exports.findByIp = function(req, res) {
+  return Vote.find({ ip: req.ip }).exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));

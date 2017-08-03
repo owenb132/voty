@@ -97,7 +97,8 @@ app.patch('/api/polls/:id', pollController.patch);
 app.delete('/api/polls/:id', pollController.destroy);
 
 app.get('/api/votes', voteController.index);
-app.get('/api/votes/:id', voteController.show);
+app.get('/api/votes/ip', voteController.findByIp);
+// app.get('/api/votes/:id', voteController.show);
 app.get('/api/votes/:id/user', voteController.getUser);
 app.get('/api/votes/:id/poll', voteController.getPoll);
 app.post('/api/votes', voteController.create);

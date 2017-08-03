@@ -4,6 +4,8 @@ angular.module('Votapalooza')
     	.then(function(response) {
     		$scope.polls = response.data;
     	}, function(response) {
-    		console.log(response);
+    		$scope.messages = {
+    			error: [response.data]
+    		};
     	});
   });

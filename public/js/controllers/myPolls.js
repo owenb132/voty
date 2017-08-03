@@ -8,8 +8,9 @@ angular.module('Votapalooza')
             .then(function (response) {
                 $scope.polls = response.data.polls;
             }, function (response) {
-                $scope.error = `Error retrieving poll: ${response.status} ${response.statusText}`;
-                console.log(response);
+                $scope.messages = {
+                    error: [response.data]
+                };
             });
     }
 

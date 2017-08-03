@@ -5,17 +5,24 @@ var User = require('./User');
 var Poll = require('./Poll');
 
 var voteSchema = new mongoose.Schema({
+	choice: {
+		type: String,
+		required: true
+	},
 	user: {
 		type: mongoose.Schema.ObjectId,
-		ref: 'User'
+		ref: 'User',
+	},
+
+	ip: {
+		type: String
 	},
 
 	poll: {
 		type: mongoose.Schema.ObjectId,
-		ref: 'Poll'
-	},
-
-	choice: String
+		ref: 'Poll',
+		required: true
+	}
 }, {
 	timestamps: true
 });

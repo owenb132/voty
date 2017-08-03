@@ -5,7 +5,10 @@ var User = require('./User');
 var Vote = require('./Vote');
 
 var optionSchema = new mongoose.Schema({
-	text: String,
+	text: {
+		type: String,
+		required: true
+	},
 	votes: [
 		{
 			type: mongoose.Schema.ObjectId,
@@ -15,11 +18,15 @@ var optionSchema = new mongoose.Schema({
 });
 
 var pollSchema = new mongoose.Schema({
-	text: String,
+	text: {
+		type: String,
+		required: true
+	},
 	options: [optionSchema],
 	owner: {
 		type: mongoose.Schema.ObjectId,
-		ref: 'User'
+		ref: 'User',
+		required: true
 	}
 }, {
 	timestamps: true

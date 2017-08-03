@@ -12,15 +12,18 @@ angular.module('Votapalooza')
         }, true);
 
         $scope.vote = function(choice) {
+            var isAuthenticated = !_.isEmpty($scope.profile);
+
             var myVote = {
-                user: $scope.profile._id,
                 poll: $scope.poll._id,
-                choice: choice
+                choice: choice,
+                authenticated: isAuthenticated
             };
 
             Vote.saveVote(myVote)
                 .then(function(response) {
-                    User.setCurrentUser(response.data.user);
+                    if (isAuthenticated) User.setCurrentUser(response.data.user);
+
                     $scope.voted = true;
                     $scope.poll = response.data.poll;
                     $scope.messages = {
@@ -34,7 +37,6 @@ angular.module('Votapalooza')
         };
 
         $scope.deletePoll = function() {
-
             Poll.deletePoll($scope.poll._id)
                 .then(function(response) {
                     User.setCurrentUser(response.data.user);
@@ -51,12 +53,25 @@ angular.module('Votapalooza')
         };
 
         $scope.checkAlreadyVoted = function() {
-            if ($scope.profile._id) {
+            // Search user votes for this poll
+            if (!_.isEmpty($scope.profile)) {
                 Account.myVotes()
                     .then(function(response) {
                         $scope.voted = response.data.votes.some(function(vote) { return vote.poll === $scope.poll._id });
                     }, function(response) {
-                        console.log(response);
+                        $scope.messages = {
+                            error: [response.data]
+                        };
+                    });
+            } else {
+                // Search votes made by this IP address for this poll
+                Vote.findByIp()
+                    .then(function(response) {
+                        $scope.voted = response.data.some(function(vote) { return vote.poll === $scope.poll._id });
+                    }, function(response) {
+                        $scope.messages = {
+                            error: [response.data]
+                        };
                     });
             }
         };

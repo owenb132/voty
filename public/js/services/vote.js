@@ -26,6 +26,9 @@ angular.module('Votapalooza')
       },
       getPoll: function(voteId) {
         return $http.get('/api/votes/' + voteId + '/poll');
+      },
+      findByIp: function() {
+        return $http.get('/api/votes/ip');
       }
     };
   });
