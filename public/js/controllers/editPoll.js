@@ -21,7 +21,11 @@ angular.module('Votapalooza')
     $scope.deletePoll = function() {
             Poll.deletePoll($scope.poll._id)
                 .then(function(response) {
-                    User.setCurrentUser(response.data);
+                    User.setCurrentUser(response.data.user);
+                    $scope.messages = {
+                        success: [response.data]
+                    };
+                    
                     $scope.poll = {};
                 }, function(response) {
                     $scope.messages = {

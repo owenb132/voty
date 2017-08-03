@@ -204,7 +204,7 @@ exports.destroy = function(req, res) {
             const updatedUser = resultArr
               .filter(el => el !== undefined)[0];
 
-            res.status(200).json(updatedUser);
+            res.status(200).send({ msg: 'Poll deleted successfully.', user: updatedUser });
           }
         });
     })

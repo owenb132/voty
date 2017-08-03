@@ -1,7 +1,10 @@
 'use strict';
 
 var _ = require('lodash');
+var async = require('async');
 var Vote = require('../models/Vote');
+var Poll = require('../models/Poll');
+var User = require('../models/User');
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -63,9 +66,50 @@ exports.getUser = function(req, res) {
 };
 
 exports.create = function(req, res) {
-	return Vote.create(req.body)
-		.then(respondWithResult(res, 201))
-		.catch(handleError(res));
+  var user = req.user;
+  var vote = req.body;
+  var pollId = vote.poll;
+  var choice = vote.choice;
+
+  // Save the vote to db
+  Vote.create(vote)
+    .then(result => {
+      user.votes.push(result._id);
+
+      async.parallel([
+        callback => {
+          // Get poll information in order to update its votes list
+          Vote.findOne(result)
+            .populate('poll').exec()
+            .then(handleEntityNotFound(res))
+            .then(_vote => {
+              var poll = _vote.poll;
+              // Add the vote to the corect option
+              var optionIndex = poll.options.findIndex(opt => opt.text === choice);
+              poll.options[optionIndex].votes.push(result._id);
+
+              // Update poll and save to db
+              addVoteToPoll(poll._id, poll.options, res, callback);
+            })
+            .catch(handleError(res));
+        },
+
+        // Update user and save to db
+        callback => {
+          addVoteToUser(user._id, user.votes, res, callback);
+        }
+      ],
+        // All operations complete
+        (err, results) => {
+          if (err) {
+            res.status(500).send(err);
+          }
+          if (results) {
+            res.status(200).send({ msg: 'Voted logged successfully.', poll: results[0], user: results[1] });
+          }
+        });
+    })
+    .catch(handleError(res));
 };
 
 exports.patch = function(req, res) {
@@ -96,4 +140,18 @@ exports.getPoll = function(req, res) {
     .then(respondWithResult(res))
     .catch(handleError(res));
 };
+
+function addVoteToUser(userId, updatedVotes, res, callback) {
+  return User.findByIdAndUpdate(userId, { votes: updatedVotes}, { new: true }).exec()
+    .then(handleEntityNotFound(res))
+    .then(user => { callback(null, user) })
+    .catch(err => { callback(err) });
+}
+
+function addVoteToPoll(pollId, updatedOptions, res, callback) {
+  return Poll.findByIdAndUpdate(pollId, { options: updatedOptions }, { new: true }).exec()
+    .then(handleEntityNotFound(res))
+    .then(poll => { callback(null, poll) })
+    .catch(err => { callback(err ) });
+}
 

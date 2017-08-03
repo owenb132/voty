@@ -9,7 +9,7 @@ angular.module('Votapalooza')
       	return $http.get('/api/votes/' + voteId);
       },
 
-      createVote: function(data) {
+      saveVote: function(data) {
       	return $http.post('/api/votes', data);
       },
 
