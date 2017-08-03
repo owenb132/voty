@@ -1,6 +1,4 @@
 .poll {
-	.poll-text {
-		@include vertical-center;
-		padding-left: 1rem;
-	}
+	display: flex;
+	justify-content: space-around;
 }

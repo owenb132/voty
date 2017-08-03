@@ -6,12 +6,10 @@ angular.module('Votapalooza')
             $scope.profile = user;
         }, true);
         
+        $scope.input = { choice: '' };
         $scope.loading = true;
-
         $scope.voted = false;
-        $scope.data = {
-            choice: ''
-        };
+        $scope.data = [];
 
         $scope.vote = function(choice) {
             var isAuthenticated = !_.isEmpty($scope.profile);
@@ -59,7 +57,6 @@ angular.module('Votapalooza')
             if (!_.isEmpty($scope.profile)) {
                 Account.myVotes()
                     .then(function(response) {
-                        $scope.loading = false;
                         $scope.voted = response.data.votes.some(function(vote) { return vote.poll === $scope.poll._id });
                     }, function(response) {
                         $scope.messages = {
@@ -85,6 +82,11 @@ angular.module('Votapalooza')
                 // Update the view with the response
                 $scope.poll = response.data;
                 $scope.checkAlreadyVoted();
+                
+                $scope.data = $scope.poll.options.map(function(opt) { return opt.votes.length; });
+                $scope.labels = $scope.poll.options.map(function(opt) { return opt.text; });
+
+                $scope.loading = false;
 
                 // Get poll creator
                 Poll.getOwner(response.data._id)

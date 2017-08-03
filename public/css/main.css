@@ -4170,11 +4170,9 @@ table.hover tr:nth-of-type(even):hover {
     box-shadow: 0 -2em;
     height: 4em; } }
 
-.poll .poll-text {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  padding-left: 1rem; }
+.poll {
+  display: flex;
+  justify-content: space-around; }
 
 html {
   position: relative;
@@ -4183,6 +4181,9 @@ html {
 
 body {
   margin: 0 0 50px; }
+
+h1 {
+  margin-bottom: 3rem; }
 
 footer {
   padding: 0 1rem;

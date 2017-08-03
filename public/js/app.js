@@ -1,4 +1,4 @@
-angular.module('Votapalooza', ['ngRoute', 'satellizer'])
+angular.module('Votapalooza', ['ngRoute', 'satellizer', 'chart.js'])
   .config(function($routeProvider, $locationProvider, $authProvider) {
     $locationProvider.html5Mode(true);
 
