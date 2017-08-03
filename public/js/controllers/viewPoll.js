@@ -52,12 +52,12 @@ angular.module('Votapalooza')
                 });
         };
 
-        $scope.checkAlreadyVoted = function() {
+        $scope.checkAlreadyVoted = function(poll) {
             // Search user votes for this poll
             if (!_.isEmpty($scope.profile)) {
                 Account.myVotes()
                     .then(function(response) {
-                        $scope.voted = response.data.votes.some(function(vote) { return vote.poll === $scope.poll._id });
+                        $scope.voted = response.data.votes.some(function(vote) { return vote.poll === poll._id });
                     }, function(response) {
                         $scope.messages = {
                             error: [response.data]
@@ -67,7 +67,7 @@ angular.module('Votapalooza')
                 // Search votes made by this IP address for this poll
                 Vote.findByIp()
                     .then(function(response) {
-                        $scope.voted = response.data.some(function(vote) { return vote.poll === $scope.poll._id });
+                        $scope.voted = response.data.some(function(vote) { return vote.poll === poll._id });
                     }, function(response) {
                         $scope.messages = {
                             error: [response.data]
@@ -81,17 +81,16 @@ angular.module('Votapalooza')
             .then(function(response) {
                 // Update the view with the response
                 $scope.poll = response.data;
-                $scope.checkAlreadyVoted();
+                $scope.checkAlreadyVoted($scope.poll);
                 
                 $scope.data = $scope.poll.options.map(function(opt) { return opt.votes.length; });
                 $scope.labels = $scope.poll.options.map(function(opt) { return opt.text; });
-
-                $scope.loading = false;
 
                 // Get poll creator
                 Poll.getOwner(response.data._id)
                     .then(function(response) {
                         $scope.pollCreator = response.data.owner;
+                        $scope.loading = false;
                     }, function(response) {
                         $scope.messages = {
                             error: [response.data]
