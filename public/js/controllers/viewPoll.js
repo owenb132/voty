@@ -2,14 +2,16 @@ angular.module('Votapalooza')
     .controller('ViewPollCtrl', function($window, $location, $scope, $routeParams, $http, User, Vote, Poll, Account) {
         $scope.profile = User.getCurrentUser();
 
+        $scope.$watch(User.getCurrentUser, function(user) {
+            $scope.profile = user;
+        }, true);
+        
+        $scope.loading = true;
+
         $scope.voted = false;
         $scope.data = {
             choice: ''
         };
-
-        $scope.$watch(User.getCurrentUser, function(user) {
-            $scope.profile = user;
-        }, true);
 
         $scope.vote = function(choice) {
             var isAuthenticated = !_.isEmpty($scope.profile);
@@ -57,6 +59,7 @@ angular.module('Votapalooza')
             if (!_.isEmpty($scope.profile)) {
                 Account.myVotes()
                     .then(function(response) {
+                        $scope.loading = false;
                         $scope.voted = response.data.votes.some(function(vote) { return vote.poll === $scope.poll._id });
                     }, function(response) {
                         $scope.messages = {

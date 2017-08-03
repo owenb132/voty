@@ -2,6 +2,12 @@ angular.module('Votapalooza')
   .controller('EditPollCtrl', function($window, $scope, $routeParams, $http, Poll, User) {
     $scope.profile = User.getCurrentUser();
 
+    $scope.$watch(User.getCurrentUser, function(user) {
+        $scope.profile = user;
+    }, true);
+
+    $scope.loading = true;
+
     $scope.errors = {
         name: {
             message: ''
@@ -10,10 +16,6 @@ angular.module('Votapalooza')
             message: ''
         }
     };
-
-    $scope.$watch(User.getCurrentUser, function(user) {
-        $scope.profile = user;
-    }, true);
 
     var NEW_POLL_NAME_ERROR = 'You must enter a name for your poll.';
     var NEW_POLL_OPTIONS_ERROR = 'You must enter at least two options for your poll.';
@@ -62,6 +64,7 @@ angular.module('Votapalooza')
     
     Poll.getPoll($routeParams.id)
         .then(function(response) {
+            $scope.loading = false;
             $scope.poll = response.data;
         }, function(response) {
             console.log('Error');

@@ -2,6 +2,10 @@ angular.module('Votapalooza')
   .controller('CreatePollCtrl', function($window, $scope, $location, $http, $auth, Account, Poll, User) {
   	$scope.profile = User.getCurrentUser();
 
+    $scope.$watch(User.getCurrentUser, function(user) {
+        $scope.profile = user;
+    }, true);
+
   	$scope.placeholders = ['Coke', 'Pepsi'];
 
   	if ($scope.profile) {
@@ -19,10 +23,6 @@ angular.module('Votapalooza')
             message: ''
         }
     };
-
-    $scope.$watch(User.getCurrentUser, function(user) {
-        $scope.profile = user;
-    }, true);
 
     var NEW_POLL_NAME_ERROR = 'You must enter a name for your poll.';
     var NEW_POLL_OPTIONS_ERROR = 'You must enter at least two options for your poll.';
