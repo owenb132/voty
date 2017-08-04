@@ -136,9 +136,9 @@ exports.destroy = function(req, res) {
                     // Processed this vote
                     (err, results) => {
                       if (err) {
-                        callback(err);
+                        votesCallback(err);
                       } else if (results) {
-                        votesCallback(results);
+                        votesCallback();
                       }
                     });
                   })
@@ -191,7 +191,9 @@ exports.destroy = function(req, res) {
       ],
         // All operations complete
         (err, results) => {
-          if (err) res.status(500).send(err);
+          if (err) {
+            res.status(500).send(err);
+          }
           if (results) {
             const resultArr = _.flattenDeep(results);
 
@@ -217,13 +219,13 @@ function deleteVoteFromUser(vote, res, callback) {
 
   User.findByIdAndUpdate(voter._id, { votes: voter.votes }, { new: true }).exec()
     .then(handleEntityNotFound(res))
-    .then(user => { callback(null, user) })
+    .then(user => { callback() })
     .catch(err => { callback(err) });
 }
 
 function deleteVoteFromDb(vote, callback) {
   vote.remove()
-    .then(vote => { callback(null, vote) })
+    .then(vote => { callback() })
     .catch(err => { callback(err) });
 }
 
@@ -233,7 +235,7 @@ function deletePollFromUser(poll, res, callback) {
 
   return User.findByIdAndUpdate(user._id, { polls: user.polls }, { new: true }).exec()
     .then(handleEntityNotFound(res))
-    .then(user => { callback(null, user) }) // Return the updated user so that we can access it in the view's controller
+    .then(user => { callback(null, user) }) // Return the updated user so that we can update the local user
     .catch(err => { callback(err) });
 }
 
