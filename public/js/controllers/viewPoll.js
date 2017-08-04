@@ -26,6 +26,11 @@ angular.module('Votapalooza')
 
                     $scope.voted = true;
                     $scope.poll = response.data.poll;
+
+                    var data = $scope.getPollVoteData($scope.poll);
+                    $scope.values = data.values;
+                    $scope.labels = data.labels;
+                
                     $scope.messages = {
                         success: [response.data]
                     };
@@ -76,15 +81,23 @@ angular.module('Votapalooza')
             }
         };
 
+        $scope.getPollVoteData = function(poll) {
+            return {
+                values: poll.options.map(function(opt) { return opt.votes.length; }),
+                labels: poll.options.map(function(opt) { return opt.text; })
+            };
+        };
+
         // Retrieve poll information using id in url
         Poll.getPoll($routeParams.id)
             .then(function(response) {
                 // Update the view with the response
                 $scope.poll = response.data;
                 $scope.checkAlreadyVoted($scope.poll);
-                
-                $scope.data = $scope.poll.options.map(function(opt) { return opt.votes.length; });
-                $scope.labels = $scope.poll.options.map(function(opt) { return opt.text; });
+
+                var data = $scope.getPollVoteData($scope.poll);
+                $scope.values = data.values;
+                $scope.labels = data.labels;
 
                 // Get poll creator
                 Poll.getOwner(response.data._id)
