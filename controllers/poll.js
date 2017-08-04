@@ -122,9 +122,13 @@ exports.destroy = function(req, res) {
                   .then(vote => {
 
                     async.parallel([
-                      // Remove vote from user
+                      // Remove vote from user, if applicable
                       callback => {
-                        deleteVoteFromUser(vote, res, callback);
+                        if (vote.user) {
+                          deleteVoteFromUser(vote, res, callback);
+                        } else if (vote.ip) {
+                          callback();
+                        }
                       },
 
                       // Remove vote from db
@@ -193,8 +197,7 @@ exports.destroy = function(req, res) {
         (err, results) => {
           if (err) {
             res.status(500).send(err);
-          }
-          if (results) {
+          } else if (results) {
             const resultArr = _.flattenDeep(results);
 
             /* 
@@ -215,7 +218,7 @@ exports.destroy = function(req, res) {
 
 function deleteVoteFromUser(vote, res, callback) {
   var voter = vote.user;
-  voter.votes.splice(voter.votes.findIndex(el => el._id === vote._id), 1);
+  voter.votes.splice(voter.votes.findIndex(el => el === vote._id), 1);
 
   User.findByIdAndUpdate(voter._id, { votes: voter.votes }, { new: true }).exec()
     .then(handleEntityNotFound(res))
@@ -231,7 +234,7 @@ function deleteVoteFromDb(vote, callback) {
 
 function deletePollFromUser(poll, res, callback) {
   var user = poll.owner;
-  user.polls.splice(user.polls.findIndex(el => el._id === poll._id), 1);
+  user.polls.splice(user.polls.findIndex(el => el === poll._id ), 1);
 
   return User.findByIdAndUpdate(user._id, { polls: user.polls }, { new: true }).exec()
     .then(handleEntityNotFound(res))
