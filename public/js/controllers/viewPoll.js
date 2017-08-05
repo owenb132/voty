@@ -1,4 +1,4 @@
-angular.module('Votapalooza')
+angular.module('Voty')
     .controller('ViewPollCtrl', function($window, $location, $scope, $routeParams, $http, User, Vote, Poll, Account) {
         $scope.profile = User.getCurrentUser();
 

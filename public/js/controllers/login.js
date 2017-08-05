@@ -1,4 +1,4 @@
-angular.module('Votapalooza')
+angular.module('Voty')
   .controller('LoginCtrl', function($scope, $rootScope, $location, $window, $auth, User) {
     $scope.login = function() {
       $auth.login($scope.user)

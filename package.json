@@ -1,7 +1,7 @@
 {
-  "name": "votapalooza",
+  "name": "Voty",
   "version": "1.0.0",
-  "description": "A polling app where users can create, view and vote on each other's polls.",
+  "description": "A voting app where users can create, view and vote on each other's polls.",
   "scripts": {
     "deploy": "npm test && git push heroku master",
     "start": "node server.js"

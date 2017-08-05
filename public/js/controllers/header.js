@@ -1,4 +1,4 @@
-angular.module('Votapalooza')
+angular.module('Voty')
   .controller('HeaderCtrl', function($scope, $location, $window, $auth, User) {
     $scope.isActive = function (viewLocation) {
       return viewLocation === $location.path();

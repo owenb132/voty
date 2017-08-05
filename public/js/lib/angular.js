@@ -2191,8 +2191,8 @@ function setupModuleLoader(window) {
            * <div class="alert alert-warning">
            * **Note:** Filter names must be valid angular {@link expression} identifiers, such as `uppercase` or `orderBy`.
            * Names with special characters, such as hyphens and dots, are not allowed. If you wish to namespace
-           * your filters, then you can use capitalization (`VotapaloozaSubsectionFilterx`) or underscores
-           * (`Votapalooza_subsection_filterx`).
+           * your filters, then you can use capitalization (`VotySubsectionFilterx`) or underscores
+           * (`Voty_subsection_filterx`).
            * </div>
            */
           filter: invokeLaterAndSetModuleName('$filterProvider', 'register'),
@@ -6510,8 +6510,8 @@ function $CacheFactoryProvider() {
  * Adding via the `$templateCache` service:
  *
  * ```js
- * var Votapalooza = angular.module('Votapalooza', []);
- * Votapalooza.run(function($templateCache) {
+ * var Voty = angular.module('Voty', []);
+ * Voty.run(function($templateCache) {
  *   $templateCache.put('templateId.html', 'This is the content of the template');
  * });
  * ```
@@ -11501,7 +11501,7 @@ function $HttpProvider() {
  * Replace or decorate this service to create your own custom XMLHttpRequest objects.
  *
  * ```
- * angular.module('Votapalooza', [])
+ * angular.module('Voty', [])
  * .factory('$xhrFactory', function() {
  *   return function createXhr(method, url) {
  *     return new window.XMLHttpRequest({mozSystem: true});
@@ -17624,15 +17624,15 @@ function adjustMatchers(matchers) {
  *
  * **Example**:  Consider the following case. <a name="example"></a>
  *
- * - your app is hosted at url `http://Votapalooza.example.com/`
+ * - your app is hosted at url `http://Voty.example.com/`
  * - but some of your templates are hosted on other domains you control such as
  *   `http://srv01.assets.example.com/`,  `http://srv02.assets.example.com/`, etc.
- * - and you have an open redirect at `http://Votapalooza.example.com/clickThru?...`.
+ * - and you have an open redirect at `http://Voty.example.com/clickThru?...`.
  *
  * Here is what a secure configuration for this scenario might look like:
  *
  * ```
- *  angular.module('Votapalooza', []).config(function($sceDelegateProvider) {
+ *  angular.module('Voty', []).config(function($sceDelegateProvider) {
  *    $sceDelegateProvider.resourceUrlWhitelist([
  *      // Allow same origin resource loads.
  *      'self',
@@ -17642,7 +17642,7 @@ function adjustMatchers(matchers) {
  *
  *    // The blacklist overrides the whitelist so the open redirect here is blocked.
  *    $sceDelegateProvider.resourceUrlBlacklist([
- *      'http://Votapalooza.example.com/clickThru**'
+ *      'http://Voty.example.com/clickThru**'
  *    ]);
  *  });
  * ```
@@ -18175,7 +18175,7 @@ function $SceDelegateProvider() {
  * That said, here's how you can completely disable SCE:
  *
  * ```
- * angular.module('VotapaloozaWithSceDisabledVotapalooza', []).config(function($sceProvider) {
+ * angular.module('VotyWithSceDisabledVoty', []).config(function($sceProvider) {
  *   // Completely disable SCE.  For demonstration purposes only!
  *   // Do not use in new projects.
  *   $sceProvider.enabled(false);
@@ -19212,8 +19212,8 @@ function $$CookieReaderProvider() {
  * <div class="alert alert-warning">
  * **Note:** Filter names must be valid angular {@link expression} identifiers, such as `uppercase` or `orderBy`.
  * Names with special characters, such as hyphens and dots, are not allowed. If you wish to namespace
- * your filters, then you can use capitalization (`VotapaloozaSubsectionFilterx`) or underscores
- * (`Votapalooza_subsection_filterx`).
+ * your filters, then you can use capitalization (`VotySubsectionFilterx`) or underscores
+ * (`Voty_subsection_filterx`).
  * </div>
  *
  * ```js
@@ -19301,8 +19301,8 @@ function $FilterProvider($provide) {
    *    <div class="alert alert-warning">
    *    **Note:** Filter names must be valid angular {@link expression} identifiers, such as `uppercase` or `orderBy`.
    *    Names with special characters, such as hyphens and dots, are not allowed. If you wish to namespace
-   *    your filters, then you can use capitalization (`VotapaloozaSubsectionFilterx`) or underscores
-   *    (`Votapalooza_subsection_filterx`).
+   *    your filters, then you can use capitalization (`VotySubsectionFilterx`) or underscores
+   *    (`Voty_subsection_filterx`).
    *    </div>
     * @param {Function} factory If the first argument was a string, a factory function for the filter to be registered.
    * @returns {Object} Registered filter instance, or if a map of filters was provided then a map

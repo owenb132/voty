@@ -1,4 +1,4 @@
-angular.module('Votapalooza')
+angular.module('Voty')
   .controller('ResetCtrl', function($scope, Account) {
     $scope.resetPassword = function() {
       Account.resetPassword($scope.user)

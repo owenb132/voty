@@ -1,4 +1,4 @@
-angular.module('Votapalooza')
+angular.module('Voty')
   .controller('HomeCtrl', function($scope, Poll) {
     $scope.loading = true;
 

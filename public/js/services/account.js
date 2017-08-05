@@ -1,4 +1,4 @@
-angular.module('Votapalooza')
+angular.module('Voty')
   .factory('Account', function($http) {
     return {
       updateProfile: function(data) {

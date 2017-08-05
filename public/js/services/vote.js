@@ -1,4 +1,4 @@
-angular.module('Votapalooza')
+angular.module('Voty')
   .factory('Vote', function($http) {
     return {
       getAll: function() {

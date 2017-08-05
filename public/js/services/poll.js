@@ -1,4 +1,4 @@
-angular.module('Votapalooza')
+angular.module('Voty')
   .factory('Poll', function($http, User) {
     return {
       getMostRecent: function() {

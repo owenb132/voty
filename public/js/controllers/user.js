@@ -1,4 +1,4 @@
-angular.module('Votapalooza')
+angular.module('Voty')
   .controller('UserCtrl', function($scope, $routeParams, Account, User, Vote) {
   	$scope.user = {};
   	$scope.polls = [];

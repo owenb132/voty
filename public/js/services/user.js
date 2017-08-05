@@ -1,4 +1,4 @@
-angular.module('Votapalooza')
+angular.module('Voty')
   .factory('User', function($window, $http) {
     var currentUser = {};
 
