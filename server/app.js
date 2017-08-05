@@ -29,13 +29,13 @@ mongoose.connection.on('error', function() {
 
 app.set('port', process.env.PORT || 3000);
 app.use(compression());
-app.use(sass({ src: path.join(__dirname, 'public'), dest: path.join(__dirname, 'public') }));
+app.use(sass({ src: path.join(__dirname, '../client'), dest: path.join(__dirname, '../client') }));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../client')));
 
 app.use(function(req, res, next) {
   req.isAuthenticated = function() {
