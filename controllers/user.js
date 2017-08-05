@@ -733,7 +733,7 @@ exports.myPolls = function(req, res) {
 
   return User.findOne({_id: userId})
     .populate('polls').exec()
-    .then(user => { res.status(200).send({ msg: 'Successfully rerieved polls.', polls: user.polls }); })
+    .then(user => { res.status(200).send({ msg: 'Successfully retrieved polls.', polls: user.polls }); })
     .catch(err => { res.status(500).send({ msg: 'Error retrieving polls.', err: err }); });
 };
 
