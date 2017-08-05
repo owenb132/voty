@@ -22,6 +22,12 @@ angular.module('Voty')
       },
       getVotes: function(userId) {
         return $http.get('/users/' + userId + '/votes');
+      },
+      myPolls: function() {
+        return $http.get('/me/polls');
+      },
+      myVotes: function() {
+        return $http.get('/me/votes');
       }
     };
   });

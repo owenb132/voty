@@ -18,12 +18,6 @@ angular.module('Voty')
       },
       resetPassword: function(data) {
         return $http.post('/reset', data);
-      },
-      myPolls: function() {
-        return $http.get('/me/polls');
-      },
-      myVotes: function() {
-        return $http.get('/me/votes');
       }
     };
   });

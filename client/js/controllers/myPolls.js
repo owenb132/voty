@@ -5,7 +5,7 @@ angular.module('Voty')
     $scope.polls = [];
 
     $scope.getPolls = function() {     
-        Account.myPolls()
+        User.myPolls()
             .then(function (response) {
                 $scope.loading = false;
                 $scope.polls = response.data.polls;

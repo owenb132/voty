@@ -65,7 +65,7 @@ angular.module('Voty')
         $scope.checkAlreadyVoted = function(poll) {
             // Search user votes for this poll
             if (!_.isEmpty($scope.profile)) {
-                Account.myVotes()
+                User.myVotes()
                     .then(function(response) {
                         $scope.voted = response.data.votes.some(function(vote) { return vote.poll._id === poll._id });
                         $scope.loading = false;

@@ -6,7 +6,7 @@ angular.module('Voty')
 
     $scope.getVotes = function() {    
         // Get all votes for this user 
-        Account.myVotes()
+        User.myVotes()
             .then(function(response) {
                 $scope.loading = false;
                 $scope.votes = response.data.votes;
