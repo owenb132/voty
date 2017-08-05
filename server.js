@@ -125,9 +125,9 @@ if (app.get('env') === 'production') {
   });
 }
 
-if (app.get('env') === 'development') {
+// if (app.get('env') === 'development') {
   require('./seed');
-}
+// }
 
 app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
