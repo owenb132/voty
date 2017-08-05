@@ -1,4 +1,6 @@
 <div ng-controller="EditPollCtrl" class="container">
+    <div class="message message--success">{{messages.success}}</div>
+    <div class="message message--error">{{messages.error}}</div>
     <div ng-if="poll.owner === profile._id">
         <h1>Edit Poll</h1>
         <div ng-hide="loading">

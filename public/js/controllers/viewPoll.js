@@ -12,6 +12,8 @@ angular.module('Votapalooza')
         $scope.data = [];
 
         $scope.vote = function(choice) {
+            $scope.loading = true;
+
             var isAuthenticated = !_.isEmpty($scope.profile);
 
             var myVote = {
@@ -25,6 +27,8 @@ angular.module('Votapalooza')
                     if (isAuthenticated) User.setCurrentUser(response.data.user);
 
                     $scope.voted = true;
+                    $scope.loading = false;
+
                     $scope.poll = response.data.poll;
 
                     var data = $scope.getPollVoteData($scope.poll);
@@ -32,11 +36,11 @@ angular.module('Votapalooza')
                     $scope.labels = data.labels;
                 
                     $scope.messages = {
-                        success: [response.data]
+                        success: response.data.msg
                     };
                 }, function(response) {
                     $scope.messages = {
-                        error: [response.data]
+                        error: response.data.msg
                     };
                 });
         };
@@ -44,15 +48,17 @@ angular.module('Votapalooza')
         $scope.deletePoll = function() {
             Poll.deletePoll($scope.poll._id)
                 .then(function(response) {
-                    User.setCurrentUser(response.data.user);
+                    $scope.poll = {};
+                    
                     $scope.messages = {
-                        success: [response.data]
+                        success: response.data.msg
                     };
 
-                    $scope.poll = {};
+                    User.setCurrentUser(response.data.user);
+                    
                 }, function(response) {
                     $scope.messages = {
-                        error: [response.data]
+                        error: response.data.msg
                     };
                 });
         };
@@ -63,19 +69,23 @@ angular.module('Votapalooza')
                 Account.myVotes()
                     .then(function(response) {
                         $scope.voted = response.data.votes.some(function(vote) { return vote.poll._id === poll._id });
+                        $scope.loading = false;
+
                     }, function(response) {
                         $scope.messages = {
-                            error: [response.data]
+                            error: response.data.msg
                         };
                     });
             } else {
                 // Search votes made by this IP address for this poll
                 Vote.findByIp()
                     .then(function(response) {
-                        $scope.voted = response.data.some(function(vote) { return vote.poll === poll._id });
+                        $scope.voted = response.data.votes.some(function(vote) { return vote.poll === poll._id });
+                        $scope.loading = false;
+                        
                     }, function(response) {
                         $scope.messages = {
-                            error: [response.data]
+                            error: response.data.msg
                         };
                     });
             }
@@ -92,7 +102,7 @@ angular.module('Votapalooza')
         Poll.getPoll($routeParams.id)
             .then(function(response) {
                 // Update the view with the response
-                $scope.poll = response.data;
+                $scope.poll = response.data.poll;
                 $scope.checkAlreadyVoted($scope.poll);
 
                 var data = $scope.getPollVoteData($scope.poll);
@@ -100,19 +110,19 @@ angular.module('Votapalooza')
                 $scope.labels = data.labels;
 
                 // Get poll creator
-                Poll.getOwner(response.data._id)
+                Poll.getOwner($scope.poll._id)
                     .then(function(response) {
-                        $scope.pollCreator = response.data.owner;
-                        $scope.loading = false;
+                        $scope.pollCreator = response.data.poll.owner;
+
                     }, function(response) {
                         $scope.messages = {
-                            error: [response.data]
+                            error: response.data.msg
                         };
                     });
 
             }, function(response) {
                 $scope.messages = {
-                    error: [response.data]
+                    error: response.data.msg
                 };
             });
     });

@@ -4111,6 +4111,12 @@ table.hover tr:nth-of-type(even):hover {
   .large {
     order: 6; } }
 
+.message--success {
+  color: green; }
+
+.message--error {
+  color: red; }
+
 .top-bar li > a.active {
   background-color: #1779BA;
   color: #fff; }

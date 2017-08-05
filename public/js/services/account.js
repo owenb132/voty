@@ -23,7 +23,7 @@ angular.module('Votapalooza')
         return $http.get('/me/polls');
       },
       myVotes: function() {
-        return $http.get('me/votes');
+        return $http.get('/me/votes');
       }
     };
   });

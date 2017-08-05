@@ -1,15 +1,16 @@
 <div ng-controller="VotesCtrl" class="container">
+    <div class="message message--success">{{messages.success}}</div>
+    <div class="message message--error">{{messages.error}}</div>
     <h1>My Votes</h1>
-    <div ng-if="votes.length > 0">
-        <div ng-hide="loading">
+    <div ng-hide="loading">
+        <div ng-if="votes.length > 0">
             <div ng-repeat="vote in votes" class="callout small primary">
                 <h3><a href="/poll/{{vote.poll._id}}">{{ vote.poll.text }}</a> by <a href="/user/{{vote.poll.owner._id}}">{{ vote.poll.owner.name }}</a></h3>
                 <p>{{ vote.choice }}</p>
             </div>
         </div>
-
-        <loading ng-show="loading"></loading>
     </div>
+    <loading ng-show="loading"></loading>
     <div ng-if="!loading && votes.length === 0">
         <h1>No votes yet.</h1>
     </div>

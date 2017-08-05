@@ -115,7 +115,7 @@ exports.create = function(req, res) {
         // All operations complete
         (err, results) => {
           if (err) {
-            res.status(500).send(err);
+            res.status(500).send({ msg: 'Error logging vote.', err: err});
           }
           if (results) {
             res.status(200).send({ msg: 'Voted logged successfully.', poll: results[0], user: results[1] });
@@ -157,8 +157,8 @@ exports.getPoll = function(req, res) {
 exports.findByIp = function(req, res) {
   return Vote.find({ ip: req.ip }).exec()
     .then(handleEntityNotFound(res))
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+    .then(votes => { res.status(200).send({ msg: 'Successfully retrieved your votes.', votes: votes }); })
+    .catch(err => { res.status(500).send({ msg: 'Error retrieving your votes.', err: err }); });
 };
 
 function addVoteToUser(userId, updatedVotes, res, callback) {

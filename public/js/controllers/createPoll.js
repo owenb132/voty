@@ -8,16 +8,9 @@ angular.module('Votapalooza')
 
   	$scope.placeholders = ['Coke', 'Pepsi'];
 
-  	if ($scope.profile) {
-	  	$scope.newPoll = {
-	        owner: $scope.profile._id,
-	        options: []
-	    };
-	}
-
-    $scope.errors = {
-        name: '',
-        options: ''
+  	$scope.newPoll = {
+        owner: $scope.profile._id,
+        options: []
     };
 
     $scope.isAuthenticated = function() {
@@ -37,19 +30,24 @@ angular.module('Votapalooza')
     /* User creates a poll */
     $scope.createPoll = function () {
 
-    	$scope.errors.name = '';
-        $scope.errors.options = '';
+    	$scope.messages = {};
 
         if (!$scope.newPoll.text) {
-            $scope.errors.name = errors.POLL_NAME_ERR;
+            $scope.messages = {
+                error: errors.POLL_NAME_ERR
+            };
         }
 
+        // All polls require at least 2 options to choose between
         if ($scope.newPoll.options.filter(function(opt) { return opt.text.length > 0 }).length < 2) {
-            $scope.errors.options = errors.POLL_OPTIONS_ERR;
+            $scope.messages = {
+                error: errors.POLL_OPTIONS_ERR
+            };
         }
 
-        if ($scope.errors.name.length === 0 && $scope.errors.options.length === 0) {
+        if (!$scope.messages.error) {
 
+            // Save new poll to db
 		    Poll.createPoll($scope.newPoll)
 		        .then(function (response) {
                     // Reset new poll
@@ -58,11 +56,17 @@ angular.module('Votapalooza')
                         options: []
                     };
 
+                    $scope.messages = {
+                        success: response.data.msg
+                    };
+                    
                     // Update local user
-                    User.setCurrentUser(response.data);
+                    User.setCurrentUser(response.data.user);
 		        
 		        }, function (response) {
-		            $scope.error = `Error creating poll: ${response.status} ${response.statusText}`;
+		            $scope.messages = {
+                        error: response.data.msg
+                    };
 		        });
 	    }
     };

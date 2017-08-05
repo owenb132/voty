@@ -1,4 +1,6 @@
 <div ng-controller="HomeCtrl" class="container">
+	<div class="message message--success">{{messages.success}}</div>
+    <div class="message message--error">{{messages.error}}</div>
     <h1>Most recent polls</h1>
     <div ng-hide="loading">
         <div ng-repeat="poll in polls" class="callout small primary">
@@ -8,4 +10,8 @@
         </div>
     </div>
     <loading ng-show="loading"></loading>
+
+    <div ng-ig="!loading && polls.length === 0">
+        <h2>No recent polls.</h2>
+    </div>
 </div>

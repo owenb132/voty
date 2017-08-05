@@ -5,10 +5,11 @@ angular.module('Votapalooza')
     Poll.getMostRecent()
     	.then(function(response) {
             $scope.loading = false;
-    		$scope.polls = response.data;
+    		$scope.polls = response.data.polls;
+
     	}, function(response) {
     		$scope.messages = {
-    			error: [response.data]
+    			error: response.data.msg
     		};
     	});
   });

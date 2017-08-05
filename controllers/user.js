@@ -630,24 +630,27 @@ exports.authGithubCallback = function(req, res) {
 exports.myVotes = function(req, res) {
   var userId = req.user._id;
 
-  return User.findById(userId)
-    .populate('votes').exec()
-    .then(user => {
-      if (user.votes.length > 0) {
-        /* The vote objects only contain references to their respective
-        * polls' IDs. Need to make more queries to populate the data we
-        * need.
-        */
-        async.map(user.votes, getAllVoteInfo, (err, results) => {
-          if (results) {
-            res.status(200).send({ msg: 'Successfully retrieved votes.', votes: results });
-          } else if (err) {
-            res.status(500).send(err);
-          }
-        });
-      }
-    })
-    .catch(handleError(res));
+  if (req.user.votes.length > 0) {
+
+    return User.findById(userId)
+      .populate('votes').exec()
+      .then(user => {
+          /* The vote objects only contain references to their respective
+          * polls' IDs. Need to make more queries to populate the data we
+          * need.
+          */
+          async.map(user.votes, getAllVoteInfo, (err, results) => {
+            if (results) {
+              res.status(200).send({ msg: 'Successfully retrieved votes.', votes: results });
+            } else if (err) {
+              res.status(500).send({ msg: 'Error retrieving votes.', err: err });
+            }
+          });
+      })
+      .catch(err => { res.status(500).send({ msg: 'Error retrieving votes.', err: err }); });
+    } else {
+      res.status(200).send({ msg: 'No votes to retrieve.', votes: [] });
+    }
 };
 
 /* 
@@ -730,8 +733,8 @@ exports.myPolls = function(req, res) {
 
   return User.findOne({_id: userId})
     .populate('polls').exec()
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+    .then(user => { res.status(200).send({ msg: 'Successfully rerieved polls.', polls: user.polls }); })
+    .catch(err => { res.status(500).send({ msg: 'Error retrieving polls.', err: err }); });
 };
 
 exports.getPolls = function(req, res) {

@@ -1,4 +1,6 @@
 <div ng-controller="PollsCtrl" class="container">
+    <div class="message message--success">{{messages.success}}</div>
+    <div class="message message--error">{{messages.error}}</div>
     <h1>My Polls</h1>
     <div ng-if="polls.length > 0">
         <div ng-hide="loading">

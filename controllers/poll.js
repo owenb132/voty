@@ -52,23 +52,23 @@ exports.mostRecentN = function(req, res) {
   var n = req.body.n;
 
   return Poll.find().sort({"createdAt": -1}).limit(n).exec()
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+    .then(polls => { res.status(200).send({ msg: 'Successfully retrieved polls.', polls: polls }); })
+    .catch(err => { res.status(500).send({ msg: 'Error retrieving polls.', err: err }); });
 };
 
 exports.getUser = function(req, res) {
   return Poll.findById(req.params.id)
     .populate('owner').exec()
     .then(handleEntityNotFound(res))
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+    .then(poll => { res.status(200).send({ msg: 'Successfully retrieved poll owner.', poll: poll }); })
+    .catch(err => { res.status(500).send({ msg: 'Error retrieving poll owner.', err: err}); });
 };
 
 exports.show = function(req, res) {
 	return Poll.findById(req.params.id).exec()
 		.then(handleEntityNotFound(res))
-		.then(respondWithResult(res))
-		.catch(handleError(res));
+		.then(poll => { res.status(200).send({ msg: 'Successfully retrieved poll.', poll: poll }); })
+		.catch(err => { res.status(500).send({ msg: 'Error retrieving poll.', err: err }); });
 };
 
 exports.create = function(req, res) {
@@ -81,25 +81,18 @@ exports.create = function(req, res) {
 
       return User.findByIdAndUpdate(user._id, user, { new: true }).exec()
         .then(handleEntityNotFound(res))
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+        .then(_user => { res.status(201).send({ msg: 'Poll successfully created.', user: _user }); })
+        .catch(err => { res.status(500).send({ msg: 'Error while creating poll.', err: err }); });
     })
 		.catch(handleError(res));
 };
 
 exports.patch = function(req, res) {
-  return Poll.findOneAndUpdate({
-    _id: req.params.id
-  }, 
-    req.body, 
-  {
-    new: true
-  }
-  ).exec()
+  return Poll.findByIdAndUpdate(req.params.id, req.body, { new: true }).exec()
     .then(handleEntityNotFound(res))
-    .then(respondWithResult(res))
-    .catch(handleError(res));
-}
+    .then(poll => { res.status(200).send({ msg: 'Poll updated successfully.', poll: poll }); })
+    .catch(err => { res.status(500).send({ msg: 'Error updating poll.', err: err }); });
+};
 
 exports.destroy = function(req, res) {
   var user = req.user;
@@ -196,7 +189,7 @@ exports.destroy = function(req, res) {
         // All operations complete
         (err, results) => {
           if (err) {
-            res.status(500).send(err);
+            res.status(500).send({ msg: 'Error while deleting poll.', err: err });
           } else if (results) {
             const resultArr = _.flattenDeep(results);
 
