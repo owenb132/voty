@@ -17,7 +17,7 @@ angular.module('Votapalooza')
             var myVote = {
                 poll: $scope.poll._id,
                 choice: choice,
-                authenticated: isAuthenticated
+                authenticated: isAuthenticated // Needs to be passed to the server because that's where we get the user's ip if they are not logged in
             };
 
             Vote.saveVote(myVote)

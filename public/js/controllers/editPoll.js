@@ -1,5 +1,5 @@
 angular.module('Votapalooza')
-  .controller('EditPollCtrl', function($window, $scope, $routeParams, $http, Poll, User) {
+  .controller('EditPollCtrl', function($window, $scope, $routeParams, $http, errors, Poll, User) {
     $scope.profile = User.getCurrentUser();
 
     $scope.$watch(User.getCurrentUser, function(user) {
@@ -9,16 +9,9 @@ angular.module('Votapalooza')
     $scope.loading = true;
 
     $scope.errors = {
-        name: {
-            message: ''
-        },
-        options: {
-            message: ''
-        }
+        name: '',
+        options: ''
     };
-
-    var NEW_POLL_NAME_ERROR = 'You must enter a name for your poll.';
-    var NEW_POLL_OPTIONS_ERROR = 'You must enter at least two options for your poll.';
 
     $scope.deletePoll = function() {
             Poll.deletePoll($scope.poll._id)
@@ -45,14 +38,14 @@ angular.module('Votapalooza')
         $scope.errors.options.message = '';
 
         if (!$scope.poll.text) {
-            $scope.errors.name.message = NEW_POLL_NAME_ERROR;
+            $scope.errors.name = errors.POLL_NAME_ERR;
         }
 
         if ($scope.poll.options.filter(function(opt) { return opt.text.length > 0 }).length < 2) {
-            $scope.errors.options.message = NEW_POLL_OPTIONS_ERROR;
+            $scope.errors.options = errors.POLL_OPTIONS_ERROR;
         }
 
-        if ($scope.errors.name.message.length === 0 && $scope.errors.options.message.length === 0) {
+        if ($scope.errors.name.length === 0 && $scope.errors.options.length === 0) {
             Poll.updatePoll($scope.poll._id, $scope.poll)
                 .then(function(response) {
                     $scope.poll = response.data;

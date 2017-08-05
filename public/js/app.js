@@ -89,6 +89,10 @@ angular.module('Votapalooza', ['ngRoute', 'satellizer', 'chart.js'])
       }
     }
   })
+  .constant("errors", {
+    POLL_NAME_ERR: 'You must enter a name for your poll.',
+    POLL_OPTIONS_ERR: 'You must enter at least two options for your poll.'
+  })
   .run(function($rootScope, $window) {
     if ($window.localStorage.user) {
       $rootScope.currentUser = JSON.parse($window.localStorage.user);

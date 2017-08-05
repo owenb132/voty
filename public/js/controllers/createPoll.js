@@ -1,5 +1,5 @@
 angular.module('Votapalooza')
-  .controller('CreatePollCtrl', function($window, $scope, $location, $http, $auth, Account, Poll, User) {
+  .controller('CreatePollCtrl', function($window, $scope, $location, $http, $auth, errors, Account, Poll, User) {
   	$scope.profile = User.getCurrentUser();
 
     $scope.$watch(User.getCurrentUser, function(user) {
@@ -16,16 +16,9 @@ angular.module('Votapalooza')
 	}
 
     $scope.errors = {
-        name: {
-            message: ''
-        },
-        options: {
-            message: ''
-        }
+        name: '',
+        options: ''
     };
-
-    var NEW_POLL_NAME_ERROR = 'You must enter a name for your poll.';
-    var NEW_POLL_OPTIONS_ERROR = 'You must enter at least two options for your poll.';
 
     $scope.isAuthenticated = function() {
       return $auth.isAuthenticated();
@@ -44,18 +37,18 @@ angular.module('Votapalooza')
     /* User creates a poll */
     $scope.createPoll = function () {
 
-    	$scope.errors.name.message = '';
-        $scope.errors.options.message = '';
+    	$scope.errors.name = '';
+        $scope.errors.options = '';
 
         if (!$scope.newPoll.text) {
-            $scope.errors.name.message = NEW_POLL_NAME_ERROR;
+            $scope.errors.name = errors.POLL_NAME_ERR;
         }
 
         if ($scope.newPoll.options.filter(function(opt) { return opt.text.length > 0 }).length < 2) {
-            $scope.errors.options.message = NEW_POLL_OPTIONS_ERROR;
+            $scope.errors.options = errors.POLL_OPTIONS_ERR;
         }
 
-        if ($scope.errors.name.message.length === 0 && $scope.errors.options.message.length === 0) {
+        if ($scope.errors.name.length === 0 && $scope.errors.options.length === 0) {
 
 		    Poll.createPoll($scope.newPoll)
 		        .then(function (response) {
