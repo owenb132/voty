@@ -1,5 +1,6 @@
 angular.module('Votapalooza')
-  .controller('VotesCtrl', function($scope, $rootScope, Account, Vote, Poll) {
+  .controller('VotesCtrl', function($scope, Account, User) {
+    $scope.profile = User.getCurrentUser();
     $scope.loading = true;
     $scope.votes = [];
 

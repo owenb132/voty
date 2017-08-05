@@ -62,7 +62,7 @@ angular.module('Votapalooza')
             if (!_.isEmpty($scope.profile)) {
                 Account.myVotes()
                     .then(function(response) {
-                        $scope.voted = response.data.votes.some(function(vote) { return vote.poll === poll._id });
+                        $scope.voted = response.data.votes.some(function(vote) { return vote.poll._id === poll._id });
                     }, function(response) {
                         $scope.messages = {
                             error: [response.data]
