@@ -2,17 +2,17 @@
     <div class="message message--success">{{messages.success}}</div>
     <div class="message message--error">{{messages.error}}</div>
     <h1>My Polls</h1>
-    <div ng-if="polls.length > 0">
-        <div ng-hide="loading">
+    <div ng-hide="loading">
+        <div ng-if="polls.length > 0">
             <div ng-repeat="poll in polls" class="callout small primary">
                 <a href="/poll/{{poll._id}}">
                     <p>{{ poll.text }}</p>
                 </a>
             </div>
         </div>
-
-        <loading ng-show="loading"></loading>
     </div>
+    <loading ng-show="loading"></loading>
+
     <div ng-if="!loading && polls.length === 0">
         <h1>No polls yet.</h1>
     </div>
