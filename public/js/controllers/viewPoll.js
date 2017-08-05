@@ -5,7 +5,7 @@ angular.module('Votapalooza')
         $scope.$watch(User.getCurrentUser, function(user) {
             $scope.profile = user;
         }, true);
-        
+
         $scope.input = { choice: '' };
         $scope.loading = true;
         $scope.voted = false;
@@ -49,7 +49,6 @@ angular.module('Votapalooza')
             Poll.deletePoll($scope.poll._id)
                 .then(function(response) {
                     $scope.poll = {};
-                    
                     $scope.messages = {
                         success: response.data.msg
                     };
