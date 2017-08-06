@@ -12,15 +12,15 @@ var moment = require('moment');
 var request = require('request');
 var sass = require('node-sass-middleware');
 
-// Load environment variables from .env file
-if (app.get('env') === 'development') {
-  dotenv.load();
-}
-
 // Models
 var User = require('./models/User');
 
 var app = express();
+
+// Load environment variables from .env file
+if (app.get('env') === 'development') {
+  dotenv.load();
+}
 
 // Connect to database
 mongoose.connect(process.env.MONGODB_URI);
