@@ -1,9 +1,13 @@
 <div ng-controller="ViewPollCtrl" class="container">
-    <div class="message message--success">{{messages.success}}</div>
-    <div class="message message--error">{{messages.error}}</div>
     <div ng-hide="loading">
+        <div ng-hide="poll._id">
+            <div ng-show="messages.success" class="callout success message message--success">{{messages.success}}</div>
+            <div ng-show="messages.error" class="callout alert message message--error">{{messages.error}}</div>
+        </div>
         <div ng-show="poll._id">
-            <h1>Viewing poll {{poll.text}} by <a href="/user/{{pollCreator._id}}">{{pollCreator.name}}</a></h1>
+            <h1>Viewing poll &mdash; {{poll.text}} by <a href="/user/{{pollCreator._id}}">{{pollCreator.name}}</a></h1>
+            <div ng-show="messages.success" class="callout success message message--success">{{messages.success}}</div>
+            <div ng-show="messages.error" class="callout alert message message--error">{{messages.error}}</div>
             <div class="poll">
                 <div class="poll__options">
                     <ul>

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
 @import "settings";
 @import "vendor/foundation/foundation";
 
@@ -43,6 +44,7 @@
 @include foundation-float-classes;
 @include foundation-flex-classes;
 
+@import "variables";
 @import "message";
 @import "header";
 @import "loading";
@@ -60,10 +62,24 @@ html {
 
 body {
   margin: 0 0 50px;
+  font-family: 'Roboto';
+  color: $color-primary;
 }
 
 h1 {
   margin-bottom: 3rem;
+  font-weight: 700;
+  font-family: inherit;
+
+
+  &:after {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 2px;
+    background-color: $color-primary;
+    content: '';
+  }
 }
 
 footer {
@@ -84,6 +100,10 @@ footer {
 .container {
   width: 70%;
   margin: 0 auto;
+}
+
+ul {
+  list-style-type: none;
 }
 
 // Alerts
@@ -171,7 +191,7 @@ footer {
 
 .top-bar {
   margin-bottom: 2rem;
-  background-color: #2C3E50;
+  background-color: $color-primary; 
 }
 
 .top-bar .avatar {
@@ -184,7 +204,7 @@ footer {
 }
 
 .top-bar li {
-  background-color: #2C3E50;
+  background-color: $color-primary;
 }
 
 .top-bar a {

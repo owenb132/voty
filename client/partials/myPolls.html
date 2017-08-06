@@ -1,7 +1,7 @@
 <div ng-controller="PollsCtrl" class="container">
-    <div class="message message--success">{{messages.success}}</div>
-    <div class="message message--error">{{messages.error}}</div>
     <h1>My Polls</h1>
+    <div ng-show="messages.success" class="callout success message message--success">{{messages.success}}</div>
+    <div ng-show="messages.error" class="callout alert message message--error">{{messages.error}}</div>
     <div ng-hide="loading">
         <div ng-if="polls.length > 0">
             <div ng-repeat="poll in polls" class="callout small primary">
@@ -14,6 +14,6 @@
     <loading ng-show="loading"></loading>
 
     <div ng-if="!loading && polls.length === 0">
-        <h1>No polls yet.</h1>
+        <h2>No polls yet.</h2>
     </div>
 </div>

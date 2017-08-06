@@ -1,8 +1,8 @@
 <div ng-controller="EditPollCtrl" class="container">
-    <div class="message message--success">{{messages.success}}</div>
-    <div class="message message--error">{{messages.error}}</div>
     <div ng-if="poll.owner === profile._id">
         <h1>Edit Poll</h1>
+        <div ng-show="messages.success" class="callout success message message--success">{{messages.success}}</div>
+        <div ng-show="messages.error" class="callout alert message message--error">{{messages.error}}</div>
         <div ng-hide="loading">
             <label for="pollText">Poll title</label>
             <input type="text" name="pollText" value="poll.text" ng-model="poll.text" aria-describedby="helpBlockPollName">

@@ -1,8 +1,9 @@
 <div ng-controller="CreatePollCtrl" class="container">
-    <div class="message message--success">{{messages.success}}</div>
-    <div class="message message--error">{{messages.error}}</div>
     <div ng-if="isAuthenticated()">
         <h1>Create Poll</h1>
+        <div ng-show="messages.success" class="callout success message message--success">{{messages.success}}</div>
+        <div ng-show="messages.error" class="callout alert message message--error">{{messages.error}}</div>
+
         <form ng-submit="createPoll()">
             <div class="form-group poll-name" ng-class="{'has-error': errors.name.length > 1}">
                 <label class="control-label" for="pollName">Name your poll.</label>
