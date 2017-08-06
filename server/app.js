@@ -13,7 +13,9 @@ var request = require('request');
 var sass = require('node-sass-middleware');
 
 // Load environment variables from .env file
-dotenv.load();
+if (app.get('env') === 'development') {
+  dotenv.load();
+}
 
 // Models
 var User = require('./models/User');
