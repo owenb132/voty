@@ -1,6 +1,7 @@
 angular.module('Voty')
   .controller('ProfileCtrl', function($scope, $rootScope, $location, $window, $auth, Account, User) {
     $scope.profile = User.getCurrentUser();
+    console.log($scope.profile);
 
     $scope.updateProfile = function() {
       Account.updateProfile($scope.profile)

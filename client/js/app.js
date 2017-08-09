@@ -61,19 +61,20 @@ angular.module('Voty', ['ngRoute', 'satellizer', 'chart.js'])
     $authProvider.signupUrl = '/signup';
     $authProvider.facebook({
       url: '/auth/facebook',
-      clientId: '980220002068787',
-      redirectUri: 'http://localhost:3000/auth/facebook/callback'
+      clientId: '123000398332587'
     });
     $authProvider.google({
       url: '/auth/google',
-      clientId: '631036554609-v5hm2amv4pvico3asfi97f54sc51ji4o.apps.googleusercontent.com'
+      clientId: '849320686441-77tkhpo99qs9132n8vl4o3e7cgtn2d3i.apps.googleusercontent.com',
+      redirectUri: 'http://localhost:3000/auth/google/callback'
     });
     $authProvider.twitter({
       url: '/auth/twitter'
     });
     $authProvider.github({
       url: '/auth/github',
-      clientId: 'c8d5bf482c0ece46fa1a'
+      clientId: '0bdbfce267f504280812',
+      redirectUri: 'http://127.0.0.1:3000/auth/github/callback'
     });
 
     function skipIfAuthenticated($location, $auth) {

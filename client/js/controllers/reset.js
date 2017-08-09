@@ -1,7 +1,7 @@
 angular.module('Voty')
-  .controller('ResetCtrl', function($scope, Account) {
+  .controller('ResetCtrl', function($scope, $routeParams, Account) {
     $scope.resetPassword = function() {
-      Account.resetPassword($scope.user)
+      Account.resetPassword($scope.user, $routeParams.token)
         .then(function(response) {
           $scope.messages = {
             success: [response.data]

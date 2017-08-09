@@ -333,7 +333,7 @@ exports.authFacebook = function(req, res) {
     code: req.body.code,
     client_id: req.body.clientId,
     client_secret: process.env.FACEBOOK_SECRET,
-    redirect_uri: req.body.redirectUri
+    redirect_uri: 'http://' + req.headers.host + '/auth/facebook/callback'
   };
 
   // Step 1. Exchange authorization code for access token.

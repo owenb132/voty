@@ -1,6 +1,6 @@
 <div class="column row">
   <div class="row">
-    <div class="medium-8 medium-offset-2 columns">
+    <div class="medium-12 medium-offset-6 columns">
       <div ng-if="messages.error" role="alert" class="callout alert">
         <div ng-repeat="error in messages.error">{{error.msg}}</div>
       </div>
@@ -23,9 +23,9 @@
 
       <div class="button-group">
         <button class="button facebook" ng-click="authenticate('facebook')">Sign in with Facebook</button>
-        <button class="button twitter" ng-click="authenticate('twitter')">Sign in with Twitter</button>
+        <!-- <button class="button twitter" ng-click="authenticate('twitter')">Sign in with Twitter</button>
         <button class="button google" ng-click="authenticate('google')">Sign in with Google</button>
-        <button class="button github" ng-click="authenticate('github')">Sign in with Github</button>
+        <button class="button github" ng-click="authenticate('github')">Sign in with Github</button> -->
       </div>
 
       <p>Don't have an account? <a href="/signup">Sign up</a></p>
