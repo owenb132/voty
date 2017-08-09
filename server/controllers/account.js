@@ -328,7 +328,7 @@ exports.authFacebook = function(req, res) {
   var profileFields = ['id', 'name', 'email', 'gender', 'location'];
   var accessTokenUrl = 'https://graph.facebook.com/v2.5/oauth/access_token';
   var graphApiUrl = 'https://graph.facebook.com/v2.5/me?fields=' + profileFields.join(',');
-  var redirectUri = 'http://' + req.headers.host + '/auth/facebook/callback';
+  var redirectUri = 'https://' + req.headers.host + '/auth/facebook/callback';
   console.log(redirectUri);
 
   var params = {
