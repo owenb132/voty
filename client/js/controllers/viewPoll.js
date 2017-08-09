@@ -126,9 +126,11 @@ angular.module('Voty')
 
         $scope.init = function() {
             $scope.profile = User.getCurrentUser();
+            console.log($scope.profile);
 
             $scope.$watch(User.getCurrentUser, function(user) {
                 $scope.profile = user;
+                console.log($scope.profile);
             }, true);
 
             $scope.input = { choice: '' };

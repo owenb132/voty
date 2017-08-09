@@ -1,6 +1,7 @@
 angular.module('Voty')
   .controller('PollsCtrl', function($scope, Account, User) {
     $scope.profile = User.getCurrentUser();
+    console.log($scope.profile);
     $scope.loading = true;
     $scope.polls = [];
 

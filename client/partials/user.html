@@ -1,22 +1,35 @@
 <div ng-controller="UserCtrl" class="container">
 	<div class="message message--success">{{messages.success}}</div>
     <div class="message message--error">{{messages.error}}</div>
-	<h1>User &mdash; {{user.name}}</h1>
+    <div ng-hide="loading">
+		<h1>User &mdash; {{user.name}}</h1>
 
-	<h3>{{user.name}}'s polls</h3>
-	<ul>
-		<li ng-repeat="poll in polls" class="callout small primary">
-			<a href="/poll/{{poll._id}}">{{poll.text}}</a>
-		</li>
-	</ul>
-	<br><br>
-	<h3>{{user.name}}'s votes</h3>
-	<ul>
-		<li ng-repeat="vote in votes" class="callout small primary">
-			<a href="/poll/{{vote.poll._id}}">{{vote.poll.text}}</a>
-			<p>{{vote.choice}}</p>
-		</li>
-	</ul>
+		<h3>{{user.name}}'s polls</h3>
+		<div ng-if="polls.length === 0">
+			<p>This user has not created any polls.</p>
+		</div>
+		<div ng-if="polls.length > 0">
+			<ul>
+				<li ng-repeat="poll in polls" class="callout small primary">
+					<a href="/poll/{{poll._id}}">{{poll.text}}</a>
+				</li>
+			</ul>
+		</div>
+		<br><br>
+		<h3>{{user.name}}'s votes</h3>
+		<div ng-if="votes.length === 0">
+			<p>This user has not voted on any polls.</p>
+		</div>
+		<div ng-if="votes.length > 0">
+			<ul>
+				<li ng-repeat="vote in votes" class="callout small primary">
+					<a href="/poll/{{vote.poll._id}}">{{vote.poll.text}}</a>
+					<p>{{vote.choice}}</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<loading ng-show="loading"></loading>
 </div>
 
 

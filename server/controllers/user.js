@@ -163,10 +163,9 @@ exports.myPolls = function(req, res) {
 };
 
 exports.getPolls = function(req, res) {
-  var userId = req.params.id;
-
-  return User.findOne({_id: userId})
+  return User.findById(req.params.id)
     .populate('polls').exec()
+    .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
 };
