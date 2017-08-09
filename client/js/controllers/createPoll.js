@@ -30,22 +30,23 @@ angular.module('Voty')
     /* User creates a poll */
     $scope.createPoll = function () {
 
-    	$scope.messages = {};
+    	$scope.messages = {
+            error: {
+                name: '',
+                options: ''
+            }
+        };
 
         if (!$scope.newPoll.text) {
-            $scope.messages = {
-                error: errors.POLL_NAME_ERR
-            };
+            $scope.messages.error.name = errors.POLL_NAME_ERR;
         }
 
         // All polls require at least 2 options to choose between
         if ($scope.newPoll.options.filter(function(opt) { return opt.text.length > 0 }).length < 2) {
-            $scope.messages = {
-                error: errors.POLL_OPTIONS_ERR
-            };
+            $scope.messages.error.options = errors.POLL_OPTIONS_ERR;
         }
 
-        if (!$scope.messages.error) {
+        if ($scope.messages.error.name.length === 0 && $scope.messages.error.options.length === 0) {
 
             // Save new poll to db
 		    Poll.createPoll($scope.newPoll)

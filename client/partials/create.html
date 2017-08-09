@@ -2,23 +2,22 @@
     <div ng-if="isAuthenticated()">
         <h1>Create Poll</h1>
         <div ng-show="messages.success" class="callout success message message--success">{{messages.success}}</div>
-        <div ng-show="messages.error" class="callout alert message message--error">{{messages.error}}</div>
 
         <form ng-submit="createPoll()">
-            <div class="form-group poll-name" ng-class="{'has-error': errors.name.length > 1}">
-                <label class="control-label" for="pollName">Name your poll.</label>
-                <input type="text" class="form-control" id="pollName" aria-describedby="helpBlockPollName" ng-model="newPoll.text" placeholder="What is your favourite soft drink?">
-                <span id="helpBlockPollName" class="help-block">{{ errors.name }}</span>
+            <div class="poll-name" ng-class="{'has-error': errors.name.length > 1}">
+                <label for="pollName">Name your poll.</label>
+                <input type="text" id="pollName" aria-describedby="helpBlockPollName" ng-model="newPoll.text" placeholder="What is your favourite soft drink?">
+                <p class="help-text" id="pollNameHelpText">{{ messages.error.name }}</span>
             </div>
             <label>Options</label>
-            <div class="form-group poll-options" ng-class="{'has-error': errors.options.length > 1}">
+            <div class="poll-options" ng-class="{'has-error': errors.options.length > 1}">
                 <div class="input-group" ng-repeat="placeholder in placeholders track by $index">
-                    <input type="text" class="form-control" aria-describedby="helpBlockPollOptions" ng-model="newPoll.options[$index].text" placeholder={{placeholder}}>
-                    <span class="input-group-btn">
-                    <button class="button alert" type="button" ng-click="removeOption($index)">Remove</button>
-                </span>
+                    <input type="text" class="input-group-field" aria-describedby="pollOptionsHelpText" ng-model="newPoll.options[$index].text" placeholder={{placeholder}}>
+                    <div class="input-group-button">
+                        <button class="button alert" type="button" ng-click="removeOption($index)">Remove</button>
+                    </div>
                 </div>
-                <span id="helpBlockPollOptions" class="help-block">{{ errors.options }}</span>
+                <p class="help-text" id="pollOptionsHelpText">{{ messages.error.options }}</span>
             </div>
             <div class="button-group">
                 <button type="button" class="button secondary" ng-click="addOption()">Add Option</button>
