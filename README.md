@@ -11,7 +11,7 @@ https://calm-stream-10631.herokuapp.com/.
 - **CSS Preprocessor**: Sass
 - **JavaScript Framework**: AngularJS
 - **Database**: Mongodb
-- **Authentication**: Email, Facebook, Twitter, Google, Github
+- **Authentication**: Email
 - **Deployment**: Heroku
 
 ### License
