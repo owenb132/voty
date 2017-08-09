@@ -328,12 +328,14 @@ exports.authFacebook = function(req, res) {
   var profileFields = ['id', 'name', 'email', 'gender', 'location'];
   var accessTokenUrl = 'https://graph.facebook.com/v2.5/oauth/access_token';
   var graphApiUrl = 'https://graph.facebook.com/v2.5/me?fields=' + profileFields.join(',');
+  var redirectUri = 'http://' + req.headers.host + '/auth/facebook/callback';
+  console.log(redirectUri);
 
   var params = {
     code: req.body.code,
     client_id: req.body.clientId,
     client_secret: process.env.FACEBOOK_SECRET,
-    redirect_uri: 'http://' + req.headers.host + '/auth/facebook/callback'
+    redirect_uri: redirectUri
   };
 
   // Step 1. Exchange authorization code for access token.
