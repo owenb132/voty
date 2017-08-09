@@ -16,6 +16,7 @@
     "heroku",
     "freecodecamp"
   ],
+  "homepage": "https://calm-stream-10631.herokuapp.com/",
   "repository": {
     "type": "git",
     "url": "https://github.com/jack-doyle/voty"
