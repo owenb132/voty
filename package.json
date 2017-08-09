@@ -1,7 +1,26 @@
 {
   "name": "Voty",
   "version": "1.0.0",
+  "author": "Jack Doyle",
   "description": "A voting app where users can create, view and vote on each other's polls.",
+  "keywords": [
+    "voting",
+    "polling",
+    "node",
+    "javascript",
+    "foundation",
+    "angular",
+    "mongodb",
+    "express",
+    "full-stack",
+    "heroku",
+    "freecodecamp"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jack-doyle/voty"
+  },
+  "license": "MIT",
   "scripts": {
     "deploy": "npm test && git push heroku master",
     "start": "node server"
