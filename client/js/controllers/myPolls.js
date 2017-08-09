@@ -1,7 +1,7 @@
 angular.module('Voty')
   .controller('PollsCtrl', function($scope, Account, User) {
     $scope.profile = User.getCurrentUser();
-    console.log($scope.profile);
+
     $scope.loading = true;
     $scope.polls = [];
 
@@ -10,6 +10,9 @@ angular.module('Voty')
             .then(function (response) {
                 $scope.loading = false;
                 $scope.polls = response.data.polls;
+                $scope.messages = {
+                    success: response.data.msg
+                };
                 
             }, function (response) {
                 $scope.messages = {

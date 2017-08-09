@@ -59,11 +59,13 @@ exports.myVotes = function(req, res) {
 
     return User.findById(userId)
       .populate('votes').exec()
+      .then(handleEntityNotFound(res))
       .then(user => {
           /* The vote objects only contain references to their respective
           * polls' IDs. Need to make more queries to populate the data we
           * need.
           */
+
           async.map(user.votes, getAllVoteInfo, (err, results) => {
             if (results) {
               res.status(200).send({ msg: 'Successfully retrieved votes.', votes: results });
@@ -147,8 +149,9 @@ function getOwnerFromPoll(poll, vote, res, callback) {
 exports.getVotes = function(req, res) {
   var userId = req.params.id;
 
-  return User.findOne({_id: userId})
+  return User.findById(userId)
     .populate('votes').exec()
+    .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
 };
@@ -156,9 +159,12 @@ exports.getVotes = function(req, res) {
 exports.myPolls = function(req, res) {
   var userId = req.user._id;
 
-  return User.findOne({_id: userId})
+  return User.findById(userId)
     .populate('polls').exec()
-    .then(user => { res.status(200).send({ msg: 'Successfully retrieved polls.', polls: user.polls }); })
+    .then(handleEntityNotFound(res))
+    .then(user => {
+      res.status(200).send({ msg: 'Successfully retrieved polls.', polls: user.polls }); 
+    })
     .catch(err => { res.status(500).send({ msg: 'Error retrieving polls.', err: err }); });
 };
 
@@ -171,14 +177,7 @@ exports.getPolls = function(req, res) {
 };
 
 exports.updateUser = function(req, res) {
-  return User.findOneAndUpdate({
-    _id: req.params.id
-  }, 
-    req.body, 
-  {
-    new: true
-  }
-  ).exec()
+  return User.findByIdAndUpdate(req.params.id, req.body, { new: true }).exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));

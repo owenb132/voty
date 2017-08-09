@@ -12,7 +12,6 @@ angular.module('Voty', ['ngRoute', 'satellizer', 'chart.js'])
       })
       .when('/mypolls', {
         templateUrl: 'partials/myPolls.html',
-        controller: 'PollsCtrl',
         resolve: { loginRequired: loginRequired }
       })
       .when('/myvotes', {

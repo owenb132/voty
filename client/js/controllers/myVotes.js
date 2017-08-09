@@ -1,7 +1,7 @@
 angular.module('Voty')
   .controller('VotesCtrl', function($scope, Account, User) {
     $scope.profile = User.getCurrentUser();
-    console.log($scope.profile);
+
     $scope.loading = true;
     $scope.votes = [];
 
@@ -11,6 +11,9 @@ angular.module('Voty')
             .then(function(response) {
                 $scope.loading = false;
                 $scope.votes = response.data.votes;
+                $scope.messages = {
+                    success: response.data.msg
+                };
 
             }, function(response) {
                 $scope.messages = {

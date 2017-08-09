@@ -1,7 +1,6 @@
 angular.module('Voty')
   .controller('EditPollCtrl', function($window, $scope, $routeParams, $http, errors, Poll, User) {
     $scope.profile = User.getCurrentUser();
-    console.log($scope.profile);
 
     $scope.$watch(User.getCurrentUser, function(user) {
         $scope.profile = user;

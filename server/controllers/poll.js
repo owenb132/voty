@@ -211,7 +211,7 @@ exports.destroy = function(req, res) {
 
 function deleteVoteFromUser(vote, res, callback) {
   var voter = vote.user;
-  voter.votes.splice(voter.votes.findIndex(el => el === vote._id), 1);
+  voter.votes.pull(vote._id);
 
   User.findByIdAndUpdate(voter._id, { votes: voter.votes }, { new: true }).exec()
     .then(handleEntityNotFound(res))
@@ -227,7 +227,7 @@ function deleteVoteFromDb(vote, callback) {
 
 function deletePollFromUser(poll, res, callback) {
   var user = poll.owner;
-  user.polls.splice(user.polls.findIndex(el => el === poll._id ), 1);
+  user.polls.pull(poll._id);
 
   return User.findByIdAndUpdate(user._id, { polls: user.polls }, { new: true }).exec()
     .then(handleEntityNotFound(res))

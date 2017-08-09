@@ -51,7 +51,6 @@ angular.module('Voty')
         $scope.polls = results[0];
         $scope.votes = results[1];
         $scope.user = results[2];
-        // console.log($scope.user);
         $scope.loading = false;
       }
     });
@@ -59,7 +58,6 @@ angular.module('Voty')
     function getUserPolls(userId, callback) {
       User.getPolls(userId)
         .then(function(response) {
-          console.log(response.data);
           callback(null, response.data.polls);
         }, function(response) {
           callback(response);
@@ -78,7 +76,6 @@ angular.module('Voty')
     function getUserInformation(userId, callback) {
       User.getUser(userId)
           .then(function(response) {
-            console.log(response.data);
             callback(null, response.data);
           }, function(response) {
             callback(response.data);
