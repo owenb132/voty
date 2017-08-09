@@ -22,7 +22,7 @@ angular.module('Voty')
       },
 
       getOwner: function(pollId) {
-        return $http.get('/api/polls/' + pollId + '/user');
+        return $http.get('/api/polls/' + pollId + '/owner');
       }
     };
   });

@@ -1,0 +1,66 @@
+Creating a poll
+	- Authenticated user can create a poll
+	- Authenticated user can add an option
+	- Authenticated user can add multiple options
+	- Empty text field prevents poll creation
+	- Less than 2 options prevents poll creation
+	- Unauthenticated user cannot create a poll
+
+Editing a poll
+	- Poll text displayed correctly
+	- Poll options displayed correctly
+	- Poll owner can change the poll text
+	- Poll owner can change an option
+	- Poll owner can change multiple options
+	- Poll owner can change all options
+	- Poll owner can change text and an option
+	- Poll owner can change text and multiple option
+	- Poll owner can change text and all options
+	- Poll owner can add an option
+	- Poll owner can add multiple options
+	- Poll owner can see delete button
+	- Authenticated user who is not poll owner cannot edit poll
+	- Unauthenticated user cannot edit poll
+
+Viewing a poll
+	- Poll text displayed correctly
+	- Poll options displayed correctly
+	- Authenticated user cannot vote on a poll twice
+	- Unauthenticated user cannot vote on a poll twice
+	- Doughnut chart displays correctly
+	- Poll owner can see edit button
+	- Poll owner can see delete ebutton
+
+Deleting a poll
+	- Poll owner can delete poll with no votes
+	- Poll owner can delete poll with other user votes
+	- Poll owner can delete poll with unauthenticated uer votes
+	- Poll owner can delete poll with self vote, other user votes and unauthenticated uer votes
+
+Voting on a poll
+	- Poll owner cannot vote on a poll twice
+	- Authenticated user cannot vote on a poll twice
+	- Unauthenticated user cannot vote on a poll twice
+	- Poll owner can vote on a poll
+	- Authenticated user can vote on a poll
+	- Unauthenticated user can vote on a poll
+
+Retrieving polls
+	- All users can view recent polls
+	- Authenticated users can view their own polls
+	- Unauthenticated users cannot access My Polls
+
+Retrieving votes
+	- All users can view recent votes
+	- Authenticated users can view their own votes
+	- Unauthenticated users cannot access My Votes
+
+User overview
+	- Authenticated users can see their overview
+	- Unauthenticated users cannot access overview
+	- Correct polls loaded for authenticated users
+	- Correct votes loaded for authenticated users
+
+
+
+

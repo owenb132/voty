@@ -43,7 +43,7 @@ module.exports = app => {
     // Poll
     app.get('/api/polls', pollController.mostRecentN);
     app.get('/api/polls/:id', pollController.show);
-    app.get('/api/polls/:id/user', pollController.getUser);
+    app.get('/api/polls/:id/owner', pollController.getOwner);
     app.post('/api/polls', pollController.create);
     app.patch('/api/polls/:id', pollController.patch);
     app.delete('/api/polls/:id', pollController.destroy);

@@ -56,7 +56,7 @@ exports.mostRecentN = function(req, res) {
     .catch(err => { res.status(500).send({ msg: 'Error retrieving polls.', err: err }); });
 };
 
-exports.getUser = function(req, res) {
+exports.getOwner = function(req, res) {
   return Poll.findById(req.params.id)
     .populate('owner').exec()
     .then(handleEntityNotFound(res))
