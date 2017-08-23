@@ -3,7 +3,7 @@
 A voting app, where users can create, view and vote on each other's polls.
 
 ### Homepage
-https://calm-stream-10631.herokuapp.com/.
+https://voty.herokuapp.com/.
 
 ### Configuration
 - **Platform:** Node
