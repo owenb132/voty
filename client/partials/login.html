@@ -1,12 +1,13 @@
 <div class="column row">
   <div class="row">
-    <div class="medium-12 medium-offset-6 columns">
+    <div class="medium-12 columns">
       <div ng-if="messages.error" role="alert" class="callout alert">
         <div ng-repeat="error in messages.error">{{error.msg}}</div>
       </div>
 
       <form ng-submit="login()">
         <h4>Log In</h4>
+        <p>Test account can be used with email <strong>test@example.com</strong> and password <strong>test</strong>.</p>
 
         <label for="email">Email</label>
         <input type="email" name="email" id="email" placeholder="Email" ng-model="user.email" autofocus>
